@@ -45,8 +45,9 @@ int main(int argc, char** argv){
     unsigned char* ptr = memory;
 
     for(int i = 0; i < bdata.size(); i++){
-        if(bdata[i]=='>')ptr++; 
-        if(bdata[i]=='<')ptr--; 
+        // The current problem with this bit of code, there can be segfaults.
+        if(bdata[i]=='>' && ptr < &memory[999])ptr++; 
+        if(bdata[i]=='<' && ptr > memory)ptr--; 
         if(bdata[i]=='+')(*ptr)++;
         if(bdata[i]=='-')(*ptr)--;
         if(bdata[i]=='.')std::cout << (char)*ptr; 
