@@ -17,6 +17,7 @@ int haltpos = 0;
 bool bIgnoreComments=false;
 bool bIgnoreHalts=false;
 bool bSignalHalt=true;
+bool bDisplaySettings=false;
 uint16_t memorysize = 1000;
 
 int main(int argc, char** argv){
@@ -32,6 +33,7 @@ int main(int argc, char** argv){
         if(strarg.compare("--ignore-comments"))bIgnoreComments=true;
         if(strarg.compare("--ignore-halts"))bIgnoreHalts=true;
         if(strarg.compare("--unsignal-halt"))bSignalHalt=false;
+        if(strarg.compare("--prg-settings"))bDisplaySettings=true;
         if(strarg.compare("-m") || strarg.compare("--memory-alloc")){
             if(i+1 >= argc){
                 std::cerr << "\033[31m\033[1merror: \033[0m\n" << argv[i] << " requires a second argument.\n";
@@ -83,7 +85,7 @@ int main(int argc, char** argv){
         }
     }
 
-    // TODO: make an option for the user to allocate manually memory. (with safety features).
+    // (DONE) TODO: make an option for the user to allocate manually memory. (with safety features).
     unsigned char* memory = new unsigned char[memorysize];
     unsigned char* ptr = memory;
 
@@ -107,6 +109,11 @@ int main(int argc, char** argv){
 
     if(haltbreak && bSignalHalt){
         std::cout << "\n\033[1m*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
+    }
+
+    if(bDisplaySettings){
+        // Currently there is only one setting (but expect more).
+        std::cout << "Allocated memory (kB): " << memorysize<<'\n'; 
     }
 
     std::cout << '\n';
