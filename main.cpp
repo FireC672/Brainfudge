@@ -28,14 +28,14 @@ int main(int argc, char** argv){
     // The reason we allocate a pointer, is to prevent stack-space issues.
     std::string* filedata = new std::string("");
     while(!infile.eof())filedata->push_back(infile.get());
-    std::string instructions = extract_syntax(*filedata);
+    std::string bdata = extract_syntax(*filedata,false,false);
     delete filedata;
     infile.close();
 
     // When there are no instructions.
     // Don't bother allocating space for the program. 
     // Just exit (no error).
-    if(instructions.size() == 0){
+    if(bdata.size() == 0){
         std::cout << "\033[33m\033[1mwarning: \033[0mthe file doesn\'t contain any valid instructions.\n";
         return 0;
     }
@@ -44,9 +44,18 @@ int main(int argc, char** argv){
     unsigned char* memory = new unsigned char[1000];
     unsigned char* ptr = memory;
 
-    for(int i = 0; i < instructions.size(); i++){
-        
+    for(int i = 0; i < bdata.size(); i++){
+        if(bdata[i]=='>')ptr++; 
+        if(bdata[i]=='<')ptr--; 
+        if(bdata[i]=='+')(*ptr)++;
+        if(bdata[i]=='-')(*ptr)--;
+        if(bdata[i]=='.')std::cout << (char)*ptr; 
+        if(bdata[i]==',')std::cin >> *ptr;
+        if(bdata[i]=='[' && (*ptr)==0)while(bdata[i]!=']')i++;
+        if(bdata[i]==']' && *ptr)while(bdata[i]!='[')i--;
     }
+
+    std::cout << '\n';
 
     return 0;
 }
