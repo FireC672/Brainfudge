@@ -45,6 +45,7 @@ int main(int argc, char** argv){
                 std::cout << "\033[33m\033[1mwarning: \033[0mcan\'t allocate zero bytes, allocation size will be set to default.\n";
                 memorysize=1000;
             }
+            i++;
         }
     }
 
