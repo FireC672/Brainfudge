@@ -46,6 +46,7 @@ int main(int argc, char** argv){
 
     for(int i = 0; i < bdata.size(); i++){
         // The current problem with this bit of code, there can be segfaults.
+        // Adopting this solution currently. after debugging.
         if(bdata[i]=='>' && ptr < &memory[999])ptr++; 
         if(bdata[i]=='<' && ptr > memory)ptr--; 
         if(bdata[i]=='+')(*ptr)++;
