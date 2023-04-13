@@ -19,6 +19,12 @@ int main(int argc, char** argv){
         std::cerr << "\033[31m\033[1merror: \033[0mNot enough arguments.\n";
         return 1;
     }
+    
+    // Arguments parsing.
+    for(int i = 1; i < argc; i++){
+
+    }
+
     std::ifstream infile; 
     infile.open(argv[1],std::ios_base::in);
     
@@ -79,7 +85,7 @@ int main(int argc, char** argv){
     }
 
     if(haltbreak){
-        std::cout << "Program ended because of intentional halt (user-end) at char " << haltpos+1 << '\n';
+        std::cout << "\n\033[1m*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
     }
 
     std::cout << '\n';
