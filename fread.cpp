@@ -21,3 +21,13 @@ std::string extract_syntax(const std::string& src, bool bIgnoreComments, bool bI
     }
     return extracted;
 }
+
+int check_loops(const std::string& src){
+    int loopcheck=0;
+    for(int i = 0; i < src.size(); i++){
+        if(src[i]=='[')loopcheck++; 
+        if(src[i]==']')loopcheck--;
+    }
+    // The point: if the func returns zero, then all the loops are valid ones.
+    return loopcheck;
+}

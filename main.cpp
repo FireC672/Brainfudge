@@ -39,6 +39,19 @@ int main(int argc, char** argv){
         std::cout << "\033[33m\033[1mwarning: \033[0mthe file doesn\'t contain any valid instructions.\n";
         return 0;
     }
+    
+    /*We put this in this scope, so that we free up quickly the stack.*/
+    {
+        int loopchecked = check_loops(bdata);
+        if(loopchecked != 0){
+            if(loopchecked > 0){
+                 std::cout << "\033[33m\033[1mwarning: \033[0msome loops don\'t have endings (" << loopchecked << " loop(s))\n";
+            }else{
+                 std::cout << "\033[33m\033[1mwarning: \033[0msome loops don\'t have beginnings (" << (loopchecked/-1) << " loop(s))\n";
+            }
+            return 0;
+        }
+    }
 
     // TODO: make an option for the user to allocate manually memory. (with safety features).
     unsigned char* memory = new unsigned char[1000];
