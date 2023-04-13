@@ -3,7 +3,7 @@ Brainfudge is a brainfuck interpreter written in C++.
 ***Note: if you have a better name feel free to suggest***
 
 **Brainfuck** is a simple language written by Ürban Muller. it is a esoteric programming language, meaning it's very minimalistic. 
-the language only contains 8 valid characters "[]><+-.," other characters 
+the language only contains 8 valid characters **[ ] > < + - . ,** other characters 
 will be ignore as comments.
 
 for more information about **Brainfuck** go to <a href="https://esolangs.org/wiki/Brainfuck">Esolangs brainfuck</a>
