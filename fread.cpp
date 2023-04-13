@@ -31,10 +31,3 @@ int check_loops(const std::string& src){
     // The point: if the func returns zero, then all the loops are valid ones.
     return loopcheck;
 }
-std::string str_c(char* chbuff, size_t csize){
-    std::string b; 
-    for(int i = 0; i < csize; i++){
-        b.push_back(chbuff[i]);
-    }
-    return b;
-}

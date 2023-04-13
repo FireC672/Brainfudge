@@ -9,9 +9,14 @@
 #include <fstream>
 #include <string>
 #include "fread.hpp"
+#include "util.hpp"
 
 bool haltbreak = false;
 int haltpos = 0;
+
+bool bIgnoreComments=false;
+bool bIgnoreHalts=false;
+bool bSignalHalt=true;
 
 int main(int argc, char** argv){
     // If there are no arguments, then exist.
@@ -22,7 +27,10 @@ int main(int argc, char** argv){
     
     // Arguments parsing.
     for(int i = 1; i < argc; i++){
-
+        std::string strarg = str_c(argv[i],strlen(argv[i]));
+        if(strarg.compare("--ignore-comments"))bIgnoreComments=true;
+        if(strarg.compare("--ignore-halts"))bIgnoreHalts=true;
+        if(strarg.compare("--unsignal-halt"))bSignalHalt=false;
     }
 
     std::ifstream infile; 
@@ -37,7 +45,7 @@ int main(int argc, char** argv){
     // The reason we allocate a pointer, is to prevent stack-space issues.
     std::string* filedata = new std::string("");
     while(!infile.eof())filedata->push_back(infile.get());
-    std::string bdata = extract_syntax(*filedata,false,false);
+    std::string bdata = extract_syntax(*filedata,bIgnoreComments,bIgnoreHalts);
     delete filedata;
     infile.close();
 
@@ -84,7 +92,7 @@ int main(int argc, char** argv){
         }
     }
 
-    if(haltbreak){
+    if(haltbreak && bSignalHalt){
         std::cout << "\n\033[1m*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
     }
 
