@@ -10,6 +10,9 @@
 #include <string>
 #include "fread.hpp"
 
+bool haltbreak = false;
+int haltpos = 0;
+
 int main(int argc, char** argv){
     // If there are no arguments, then exist.
     if(argc < 2){
@@ -36,7 +39,7 @@ int main(int argc, char** argv){
     // Don't bother allocating space for the program. 
     // Just exit (no error).
     if(bdata.size() == 0){
-        std::cout << "\033[33m\033[1mwarning: \033[0mthe file doesn\'t contain any valid instructions.\n";
+        std::cout << "\033[33m\033[1mwarning: \033[0mthe file doesn\'t contain any valid instructions.\nor instructions might be commented.\n";
         return 0;
     }
     
@@ -68,6 +71,15 @@ int main(int argc, char** argv){
         if(bdata[i]==',')std::cin >> *ptr;
         if(bdata[i]=='[' && (*ptr)==0)while(bdata[i]!=']')i++;
         if(bdata[i]==']' && *ptr)while(bdata[i]!='[')i--;
+        if(bdata[i]=='!'){
+            haltbreak=true;
+            haltpos = i;
+            break;
+        }
+    }
+
+    if(haltbreak){
+        std::cout << "Program ended because of intentional halt (user-end) at char " << haltpos+1 << '\n';
     }
 
     std::cout << '\n';
