@@ -48,7 +48,6 @@ int main(int argc, char** argv){
                 std::cout << "Can't display proprer license terms and conditions.\n";
                 return 1;
             }
-        //    int linetrk = 0; 
             std::string currline;
             while(std::getline(license,currline)){
                 currline.push_back('\n');
@@ -70,24 +69,10 @@ int main(int argc, char** argv){
                return 2;
             }
             std::string* filedata = new std::string("");
-            
+
             infile.close();
             return 0;
         }
-
-        // if(strarg.compare("-m") || strarg.compare("--memory-alloc")){
-        //     if(i+1 > argc){
-        //         std::cerr << "\033[31m\033[1merror: \033[0m\n"<< "this command requires a second argument.\n";
-        //         return 3;
-        //     }
-        //     uint16_t n_memorysize = static_cast<short>(str_int(argv[i+1]));
-        //     memorysize=n_memorysize;
-        //     if(n_memorysize == 0){
-        //         std::cout << "\033[33m\033[1mwarning: \033[0mcan\'t allocate zero bytes, allocation size will be set to default.\n";
-        //         memorysize=1000;
-        //     }
-        //     i++;
-        // }
     }
 
     std::ifstream infile; 
@@ -99,7 +84,7 @@ int main(int argc, char** argv){
        return 2;
     }
 
-    // The reason we allocate a pointer, is to prevent stack-space issues.
+    // The reason we allocate a pointer, is to prevent stack-space limitation issues.
     std::string* filedata = new std::string("");
     while(!infile.eof())filedata->push_back(infile.get());
     std::string bdata = extract_syntax(*filedata,bIgnoreComments,bIgnoreHalts);
@@ -126,14 +111,10 @@ int main(int argc, char** argv){
             return 0;
         }
     }
-
-    // (DONE) TODO: make an option for the user to allocate manually memory. (with safety features).
     unsigned char* memory = new unsigned char[memorysize];
     unsigned char* ptr = memory;
 
     for(unsigned int i = 0; i < bdata.size(); i++){
-        // The current problem with this bit of code, there can be segfaults.
-        // Adopting this solution currently. after debugging.
         if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 
         if(bdata[i]=='<' && ptr > memory)ptr--; 
         if(bdata[i]=='+')(*ptr)++;
@@ -152,12 +133,6 @@ int main(int argc, char** argv){
     if(haltbreak && bSignalHalt){
         std::cout << "\n\033[1m*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
     }
-
-    // if(bDisplaySettings){
-    //     // Currently there is only one setting (but expect more).
-    //     std::cout << "Allocated memory (kB): " << memorysize<<'\n'; 
-    // }
-
     std::cout << '\n';
 
     return 0;

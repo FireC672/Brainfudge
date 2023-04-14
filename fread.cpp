@@ -31,8 +31,3 @@ int check_loops(const std::string& src){
     // The point: if the func returns zero, then all the loops are valid ones.
     return loopcheck;
 }
-
-// std::string extract_everything(const std::string& src){
-//     std::string out;
-
-// }

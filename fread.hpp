@@ -13,12 +13,5 @@
 std::string extract_syntax(const std::string& src, bool bIgnoreComments=false, bool bIgnoreHalts=false);
 // This function will check, if all the loops in the program have endings & beginnings.
 int check_loops(const std::string& src);
-// Extracts every character
-
-// /* Ignore this comment
-//  'avoidStrcomments' will avoid comments that are simply not a valid syntax. 
-//  This means we will not avoid '#' nor what comes after '#'.
-// */ Only the invalid characters
-// std::string extract_everything(const std::string& src/*, bool avoidStrcomments*/);
 
 #endif
