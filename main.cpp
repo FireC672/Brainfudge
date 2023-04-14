@@ -32,6 +32,33 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--ignore-halts"))bIgnoreHalts=true;
         if(!strcmp(argv[i],"--unsignal-halt"))bSignalHalt=false;
         if(!strcmp(argv[i],"--prg-settings"))bDisplaySettings=true;
+        if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
+           std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
+           std::cout << "This program comes with absolutely no WARRANTY\n"
+                     << "This is free software, and you are welcome to redistribute it.\n"
+                     << "Under certain conditions; type ./bfudge -lc for details.\n";
+           return 0;
+        }
+
+        if(!strcmp(argv[i],"-lc")){
+            std::ifstream license; 
+            license.open("LICENSE",std::ios_base::in);
+            if(!license){
+                std::cout << "\033[33m\033[1mwarning: \033[0mThe source didn\'t came with any license.\n";
+                std::cout << "Can't display proprer license terms and conditions.\n";
+                return 1;
+            }
+        //    int linetrk = 0; 
+            std::string currline;
+            while(std::getline(license,currline)){
+                currline.push_back('\n');
+                std::cout << currline;
+            }
+            std::cout << '\n';
+            license.close();
+            return 0;
+        }
+
         // if(strarg.compare("-m") || strarg.compare("--memory-alloc")){
         //     if(i+1 > argc){
         //         std::cerr << "\033[31m\033[1merror: \033[0m\n"<< "this command requires a second argument.\n";
@@ -88,7 +115,7 @@ int main(int argc, char** argv){
     unsigned char* memory = new unsigned char[memorysize];
     unsigned char* ptr = memory;
 
-    for(int i = 0; i < bdata.size(); i++){
+    for(unsigned int i = 0; i < bdata.size(); i++){
         // The current problem with this bit of code, there can be segfaults.
         // Adopting this solution currently. after debugging.
         if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 
