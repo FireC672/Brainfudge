@@ -59,6 +59,22 @@ int main(int argc, char** argv){
             return 0;
         }
 
+        if(!strcmp(argv[i],"--syntax-highlight")){
+            // '--syntax-highlight' performs like the 'cat' command but color-code valid syntaxes,
+            // Comments are green (if --ignore-comment is disabled).
+            // Halts are red (if --ignore-halt is disabled).
+            std::ifstream infile; 
+            infile.open(argv[1],std::ios_base::in);
+            if(!infile){
+               std::cerr << "\033[31m\033[1merror: \033[0mProvided source file is nonexistant.\n";
+               return 2;
+            }
+            std::string* filedata = new std::string("");
+            
+            infile.close();
+            return 0;
+        }
+
         // if(strarg.compare("-m") || strarg.compare("--memory-alloc")){
         //     if(i+1 > argc){
         //         std::cerr << "\033[31m\033[1merror: \033[0m\n"<< "this command requires a second argument.\n";
