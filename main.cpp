@@ -58,7 +58,6 @@ int main(int argc, char** argv){
             license.close();
             return 0;
         }
-
         if(!strcmp(argv[i],"--syntax-highlight")){
             // '--syntax-highlight' performs like the 'cat' command but color-code valid syntaxes,
             // Comments are green (if --ignore-comment is disabled).
@@ -71,6 +70,7 @@ int main(int argc, char** argv){
             }
             
             std::string* data = new std::string("");
+            data->clear();
             std::string currline; 
             while(std::getline(infile,currline)){
                 currline.push_back('\n');
@@ -79,14 +79,25 @@ int main(int argc, char** argv){
 
             infile.close();
             // Syntax highlighting.
-            for(char& token : *data){
+            for(int i = 0; i < data->size(); i++){
+                char token = data->at(i);
                 std::cout << GREY_CODE;
-                if(token == '>' || token == '<')std::cout << YELLOW_CODE;
-                if(token == '+' || token == '-')std::cout << PURPLE_CODE;
+                if(token == '>' || token == '<')std::cout << PURPLE_CODE;
+                if(token == '+' || token == '-')std::cout << YELLOW_CODE;
                 if(token == '.' || token == ',')std::cout << BLUE_CODE;
-                if(token == '[' || token == ']')std::cout << CYAN_CODE; 
-                std::cout << token; 
+                if(token == '[' || token == ']')std::cout << BOLD_TEXT << CYAN_CODE; 
+                if(token == '#' && !bIgnoreComments){
+                    while(token != '\n' && i < data->size()){
+                        token = data->at(i);
+                        std::cout << BOLD_TEXT <<GREEN_CODE << token << CLEAR_FLG;
+                        i++;
+                    }
+                    i--;
+                    continue;
+                }
+                
 
+                std::cout << token; 
                 std::cout << CLEAR_FLG;
             }
 
