@@ -20,6 +20,7 @@ bool bSignalHalt=true;
 bool bDisplaySettings=false;
 uint16_t memorysize = 1000;
 
+
 int main(int argc, char** argv){
     // If there are no arguments, then exist.
     if(argc < 2){
@@ -68,9 +69,29 @@ int main(int argc, char** argv){
                std::cerr << "\033[31m\033[1merror: \033[0mProvided source file is nonexistant.\n";
                return 2;
             }
-            std::string* filedata = new std::string("");
+            
+            std::string* data = new std::string("");
+            std::string currline; 
+            while(std::getline(infile,currline)){
+                currline.push_back('\n');
+                for(auto& ch : currline)data->push_back(ch);
+            }
 
             infile.close();
+            // Syntax highlighting.
+            for(char& token : *data){
+                std::cout << GREY_CODE;
+                if(token == '>' || token == '<')std::cout << YELLOW_CODE;
+                if(token == '+' || token == '-')std::cout << PURPLE_CODE;
+                if(token == '.' || token == ',')std::cout << BLUE_CODE;
+                if(token == '[' || token == ']')std::cout << CYAN_CODE; 
+                std::cout << token; 
+
+                std::cout << CLEAR_FLG;
+            }
+
+            std::cout << '\n';
+            delete data;
             return 0;
         }
     }
