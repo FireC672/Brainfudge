@@ -26,27 +26,25 @@ int main(int argc, char** argv){
         std::cerr << "\033[31m\033[1merror: \033[0mNot enough arguments.\n";
         return 1;
     }
-    
     // Arguments parsing.
     for(int i = 1; i < argc; i++){
-        std::string strarg = str_c(argv[i],strlen(argv[i]));
-        if(strarg.compare("--ignore-comments"))bIgnoreComments=true;
-        if(strarg.compare("--ignore-halts"))bIgnoreHalts=true;
-        if(strarg.compare("--unsignal-halt"))bSignalHalt=false;
-        if(strarg.compare("--prg-settings"))bDisplaySettings=true;
-        if(strarg.compare("-m") || strarg.compare("--memory-alloc")){
-            if(i+1 >= argc){
-                std::cerr << "\033[31m\033[1merror: \033[0m\n" << argv[i] << " requires a second argument.\n";
-                return 3;
-            }
-            uint16_t n_memorysize = str_int(argv[i+1]);
-            memorysize=n_memorysize;
-            if(n_memorysize == 0){
-                std::cout << "\033[33m\033[1mwarning: \033[0mcan\'t allocate zero bytes, allocation size will be set to default.\n";
-                memorysize=1000;
-            }
-            i++;
-        }
+        if(!strcmp(argv[i], ("--ignore-comments")))bIgnoreComments=true;
+        if(!strcmp(argv[i],"--ignore-halts"))bIgnoreHalts=true;
+        if(!strcmp(argv[i],"--unsignal-halt"))bSignalHalt=false;
+        if(!strcmp(argv[i],"--prg-settings"))bDisplaySettings=true;
+        // if(strarg.compare("-m") || strarg.compare("--memory-alloc")){
+        //     if(i+1 > argc){
+        //         std::cerr << "\033[31m\033[1merror: \033[0m\n"<< "this command requires a second argument.\n";
+        //         return 3;
+        //     }
+        //     uint16_t n_memorysize = static_cast<short>(str_int(argv[i+1]));
+        //     memorysize=n_memorysize;
+        //     if(n_memorysize == 0){
+        //         std::cout << "\033[33m\033[1mwarning: \033[0mcan\'t allocate zero bytes, allocation size will be set to default.\n";
+        //         memorysize=1000;
+        //     }
+        //     i++;
+        // }
     }
 
     std::ifstream infile; 
@@ -112,10 +110,10 @@ int main(int argc, char** argv){
         std::cout << "\n\033[1m*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
     }
 
-    if(bDisplaySettings){
-        // Currently there is only one setting (but expect more).
-        std::cout << "Allocated memory (kB): " << memorysize<<'\n'; 
-    }
+    // if(bDisplaySettings){
+    //     // Currently there is only one setting (but expect more).
+    //     std::cout << "Allocated memory (kB): " << memorysize<<'\n'; 
+    // }
 
     std::cout << '\n';
 
