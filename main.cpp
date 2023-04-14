@@ -103,7 +103,7 @@ int main(int argc, char** argv){
                         if(!bDisplayCommentTags && token == '#'){
                             token = data->at(i+1);
                             i++;
-                        };
+                        }
                         if(bDisplayComments) std::cout << BOLD_TEXT <<GREEN_CODE << token << CLEAR_FLG;
                         i++;
                     }
