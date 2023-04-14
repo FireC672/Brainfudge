@@ -18,6 +18,14 @@ bool bIgnoreComments=false;
 bool bIgnoreHalts=false;
 bool bSignalHalt=true;
 bool bDisplaySettings=false;
+
+// Only for syntax-highlight mode.
+/* bDisplayCommentTag will show the '#' character before the comment. disable this, and it will be invisible*/
+bool bDisplayCommentTags=true;
+/* bDisplayComments will display all characters after '#', disabling this will render them invisible. */
+bool bDisplayComments=true;
+// -----------
+
 uint16_t memorysize = 1000;
 
 
@@ -58,6 +66,9 @@ int main(int argc, char** argv){
             license.close();
             return 0;
         }
+
+        if(!strcmp(argv[i],"--disable-commenthash"))bDisplayCommentTags=false;
+        if(!strcmp(argv[i],"--disable-comments"))bDisplayComments=false;
         if(!strcmp(argv[i],"--syntax-highlight")){
             // '--syntax-highlight' performs like the 'cat' command but color-code valid syntaxes,
             // Comments are green (if --ignore-comment is disabled).
@@ -89,7 +100,11 @@ int main(int argc, char** argv){
                 if(token == '#' && !bIgnoreComments){
                     while(token != '\n' && i < data->size()){
                         token = data->at(i);
-                        std::cout << BOLD_TEXT <<GREEN_CODE << token << CLEAR_FLG;
+                        if(!bDisplayCommentTags && token == '#'){
+                            token = data->at(i+1);
+                            i++;
+                        };
+                        if(bDisplayComments) std::cout << BOLD_TEXT <<GREEN_CODE << token << CLEAR_FLG;
                         i++;
                     }
                     i--;
