@@ -47,7 +47,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--ignore-halts"))bIgnoreHalts=true;
         if(!strcmp(argv[i],"--unsignal-halt"))bSignalHalt=false;
         if(!strcmp(argv[i],"--prg-settings"))bDisplaySettings=true;
-        if(!strcmp(argv[i],"--count-instruction"))bCountInstructions=true;
+        if(!strcmp(argv[i],"--count-instructions"))bCountInstructions=true;
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
            std::cout << "This program comes with absolutely no WARRANTY\n"
@@ -83,7 +83,7 @@ int main(int argc, char** argv){
             std::ifstream infile; 
             infile.open(argv[1],std::ios_base::in);
             if(!infile){
-               std::cerr << "\033[31m\033[1merror: \033[0mProvided source file is nonexistant.\n";
+               std::cerr << RED_CODE << BOLD_TEXT << "error: " << CLEAR_FLG << "Provided source file is nonexistant.\n";
                return 2;
             }
             
@@ -134,7 +134,7 @@ int main(int argc, char** argv){
     
     // If the file is 'Imaginary' then exit.
     if(!infile){
-       std::cerr << "\033[31m\033[1merror: \033[0mProvided source file is nonexistant.\n";
+       std::cerr << RED_CODE << BOLD_TEXT <<"error: " << CLEAR_FLG << "Provided source file is nonexistant.\n";
        return 2;
     }
 
@@ -149,7 +149,7 @@ int main(int argc, char** argv){
     // Don't bother allocating space for the program. 
     // Just exit (no error).
     if(bdata.size() == 0){
-        std::cout << "\033[33m\033[1mwarning: \033[0mthe file doesn\'t contain any valid instructions.\nor instructions might be commented.\n";
+        std::cout << YELLOW_CODE << BOLD_TEXT <<"warning: " << CLEAR_FLG <<"the file doesn\'t contain any valid instructions.\nor instructions might be commented.\n";
         return 0;
     }
     
@@ -158,9 +158,9 @@ int main(int argc, char** argv){
         int loopchecked = check_loops(bdata);
         if(loopchecked != 0){
             if(loopchecked > 0){
-                 std::cout << "\033[33m\033[1mwarning: \033[0msome loops don\'t have endings (" << loopchecked << " loop(s))\n";
+                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "some loops don\'t have endings (" << loopchecked << " loop(s))\n";
             }else{
-                 std::cout << "\033[33m\033[1mwarning: \033[0msome loops don\'t have beginnings (" << (loopchecked/-1) << " loop(s))\n";
+                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "some loops don\'t have beginnings (" << (loopchecked/-1) << " loop(s))\n";
             }
             return 0;
         }
@@ -186,11 +186,11 @@ int main(int argc, char** argv){
     }
 
     if(haltbreak && bSignalHalt){
-        std::cout << "\n\033[1m*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
+        std::cout << "\n"<<BOLD_TEXT<<"*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
     }
 
     if(bCountInstructions){
-        std::cout << "Finished " << BOLD_TEXT << instructions << CLEAR_FLG << " instructions.\n";
+        std::cout << "\nFinished " << BOLD_TEXT << CYAN_CODE << instructions << CLEAR_FLG << " instructions.\n";
     }
 
     std::cout << '\n';
