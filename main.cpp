@@ -110,8 +110,8 @@ int main(int argc, char** argv){
                     i--;
                     continue;
                 }
-                
-
+                if(token == '!' && !bIgnoreHalts)std::cout << RED_CODE;
+            
                 std::cout << token; 
                 std::cout << CLEAR_FLG;
             }
