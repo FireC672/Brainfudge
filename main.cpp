@@ -18,6 +18,7 @@ bool bIgnoreComments=false;
 bool bIgnoreHalts=false;
 bool bSignalHalt=true;
 bool bDisplaySettings=false;
+bool bCountInstructions=false;
 
 // Only for syntax-highlight mode.
 /* bDisplayCommentTag will show the '#' character before the comment. disable this, and it will be invisible*/
@@ -26,7 +27,12 @@ bool bDisplayCommentTags=true;
 bool bDisplayComments=true;
 // -----------
 
+// Allocated size
 uint16_t memorysize = 1000;
+
+// Number of instructions.
+// The reason we make it unsigned it because, we can't have negative instructions.
+uint32_t instructions=0;
 
 
 int main(int argc, char** argv){
@@ -41,6 +47,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--ignore-halts"))bIgnoreHalts=true;
         if(!strcmp(argv[i],"--unsignal-halt"))bSignalHalt=false;
         if(!strcmp(argv[i],"--prg-settings"))bDisplaySettings=true;
+        if(!strcmp(argv[i],"--count-instruction"))bCountInstructions=true;
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
            std::cout << "This program comes with absolutely no WARRANTY\n"
@@ -175,11 +182,17 @@ int main(int argc, char** argv){
             haltpos = i;
             break;
         }
+        instructions++;
     }
 
     if(haltbreak && bSignalHalt){
         std::cout << "\n\033[1m*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
     }
+
+    if(bCountInstructions){
+        std::cout << "Finished " << BOLD_TEXT << instructions << CLEAR_FLG << " instructions.\n";
+    }
+
     std::cout << '\n';
 
     return 0;
