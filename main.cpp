@@ -175,8 +175,13 @@ int main(int argc, char** argv){
         if(bdata[i]=='-')(*ptr)--;
         if(bdata[i]=='.')std::cout << (char)*ptr; 
         if(bdata[i]==',')std::cin >> *ptr;
-        if(bdata[i]=='[' && (*ptr)==0)while(bdata[i]!=']')i++;
-        if(bdata[i]==']' && *ptr)while(bdata[i]!='[')i--;
+        if(bdata[i]=='['){
+            if((*ptr)==0)
+            while(bdata[i]!=']')i++;
+        }
+        if(bdata[i]==']'){
+            if((*ptr)!=0)while(bdata[i]!=']')i--;
+        }
         if(bdata[i]=='!'){
             haltbreak=true;
             haltpos = i;

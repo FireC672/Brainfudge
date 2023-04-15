@@ -3,6 +3,7 @@
    for file reading
 */
 #include <string> 
+#include <stack>
 
 #ifndef __FREAD_HPP_INCLUDED
 #define __FREAD_HPP_INCLUDED
@@ -13,4 +14,7 @@
 std::string extract_syntax(const std::string& src, bool bIgnoreComments=false, bool bIgnoreHalts=false);
 // This function will check, if all the loops in the program have endings & beginnings.
 int check_loops(const std::string& src);
+
+// This will register the index of invalid loops.
+std::stack<int> invalid_loops(const std::string& src);
 #endif
