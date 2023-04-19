@@ -9,8 +9,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "fread.hpp"
-#include "util.hpp"
+#include "prototypes/fread.hpp"
+#include "prototypes/util.hpp"
 
 bool haltbreak = false;
 int haltpos = 0;
