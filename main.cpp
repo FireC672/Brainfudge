@@ -11,6 +11,7 @@
 #include <string>
 #include "prototypes/fread.hpp"
 #include "prototypes/util.hpp"
+#include "prototypes/helpdoc.hpp"
 
 bool haltbreak = false;
 int haltpos = 0;
@@ -46,6 +47,12 @@ int main(int argc, char** argv){
     }
     // Arguments parsing.
     for(int i = 1; i < argc; i++){
+        if(!strcmp(argv[i],"-help") || !strcmp(argv[i],"-h")){
+            std::string* help = inithelp();
+            std::cout << *help;
+            delete help;
+            return 0;
+        }
         if(!strcmp(argv[i], ("--ignore-comments")))bIgnoreComments=true;
         if(!strcmp(argv[i],"--ignore-halts"))bIgnoreHalts=true;
         if(!strcmp(argv[i],"--unsignal-halt"))bSignalHalt=false;
