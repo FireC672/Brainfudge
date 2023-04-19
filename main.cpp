@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 #include "fread.hpp"
 #include "util.hpp"
@@ -95,7 +96,6 @@ int main(int argc, char** argv){
                 for(auto& ch : currline)data->push_back(ch);
             }
             std::vector<int> loops = invalid_loops(*data); 
-            
             infile.close();
             // Syntax highlighting.
             for(int i = 0; i < data->size(); i++){
@@ -104,7 +104,22 @@ int main(int argc, char** argv){
                 if(token == '>' || token == '<')std::cout << PURPLE_CODE;
                 if(token == '+' || token == '-')std::cout << YELLOW_CODE;
                 if(token == '.' || token == ',')std::cout << BLUE_CODE;
-                if(token == '[' || token == ']')std::cout << BOLD_TEXT << CYAN_CODE; 
+                if(token == '[' || token == ']'){
+                    bool already = false;
+                    // Don't allocate much stack memory.
+                    {
+                     std::vector<int>::iterator it; 
+                     for(it = loops.begin(); it != loops.end();i++){
+                        if(already)break;
+                          if((*it)==i){
+                             std::cout << BOLD_TEXT << RED_CODE << token;
+                             already = true;
+                             loops.erase(it);
+                          }
+                      }
+                    }
+                    if(!already)std::cout << BOLD_TEXT << CYAN_CODE << token;
+                } 
                 if(token == '#' && !bIgnoreComments){
                     while(token != '\n' && i < data->size()){
                         token = data->at(i);
