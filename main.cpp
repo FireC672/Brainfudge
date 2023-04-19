@@ -26,6 +26,8 @@ bool bCountInstructions=false;
 bool bDisplayCommentTags=true;
 /* bDisplayComments will display all characters after '#', disabling this will render them invisible. */
 bool bDisplayComments=true;
+/* bDisplayLineNum will show the current line.*/
+bool bDisplayLineNum;
 // -----------
 
 // Allocated size
@@ -49,6 +51,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--unsignal-halt"))bSignalHalt=false;
         if(!strcmp(argv[i],"--prg-settings"))bDisplaySettings=true;
         if(!strcmp(argv[i],"--count-instructions"))bCountInstructions=true;
+        if(!strcmp(argv[i],"--line-number"))bDisplayLineNum=true;
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
            std::cout << "This program comes with absolutely no WARRANTY\n"
@@ -97,6 +100,7 @@ int main(int argc, char** argv){
             }
             std::vector<int> loops = invalid_loops(*data); 
             infile.close();
+            int currentline = 1;
             // Syntax highlighting.
             for(int i = 0; i < data->size(); i++){
                 char token = data->at(i);
@@ -112,13 +116,13 @@ int main(int argc, char** argv){
                      for(it = loops.begin(); it != loops.end();i++){
                         if(already)break;
                           if((*it)==i){
-                             std::cout << BOLD_TEXT << RED_CODE << token;
+                             std::cout << BOLD_TEXT << RED_CODE;
                              already = true;
                              loops.erase(it);
                           }
                       }
                     }
-                    if(!already)std::cout << BOLD_TEXT << CYAN_CODE << token;
+                    if(!already)std::cout << BOLD_TEXT << CYAN_CODE;
                 } 
                 if(token == '#' && !bIgnoreComments){
                     while(token != '\n' && i < data->size()){
@@ -137,6 +141,7 @@ int main(int argc, char** argv){
             
                 std::cout << token; 
                 std::cout << CLEAR_FLG;
+                currentline++;
             }
 
             std::cout << '\n';
@@ -181,8 +186,8 @@ int main(int argc, char** argv){
             return 0;
         }
     }
-    unsigned char* memory = new unsigned char[memorysize];
-    unsigned char* ptr = memory;
+    byte_t* memory = new byte_t[memorysize];
+    byte_t* ptr = memory;
 
     for(unsigned int i = 0; i < bdata.size(); i++){
         if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 

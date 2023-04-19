@@ -15,6 +15,7 @@
 
 
 #include <string>
+typedef unsigned char byte_t;
 // This is reserved for my own functions.
 // Special function
 std::string str_c(char* chbuff, size_t csize);
