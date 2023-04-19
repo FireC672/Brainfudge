@@ -115,7 +115,7 @@ int main(int argc, char** argv){
                 if(token == '>' || token == '<')std::cout << PURPLE_CODE;
                 if(token == '+' || token == '-')std::cout << YELLOW_CODE;
                 if(token == '.' || token == ',')std::cout << BLUE_CODE;
-
+                if(token == '$')std::cout << YELLOW_CODE;
                 if(token == '[' || token == ']'){
                     bool already = false;
                     // Don't allocate much stack memory.
@@ -208,12 +208,14 @@ int main(int argc, char** argv){
         if(bdata[i]=='-')(*ptr)--;
         if(bdata[i]=='.')std::cout << (char)*ptr; 
         if(bdata[i]==',')std::cin >> *ptr;
+        if(bdata[i] == '$')std::cout << "value at " << std::hex << std::addressof(ptr) << "=" << (int)*ptr << '\n';
         if(bdata[i]=='['){
-            if((*ptr)==0)
-            while(bdata[i]!=']')i++;
+            if((*ptr)==0){
+               while(bdata[i]!=']')i++;
+            }
         }
         if(bdata[i]==']'){
-            if((*ptr)!=0)while(bdata[i]!=']')i--;
+            if((*ptr)!=0){while(bdata[i]!=']')i--;}
         }
         if(bdata[i]=='!'){
             haltbreak=true;

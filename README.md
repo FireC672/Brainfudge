@@ -1,7 +1,7 @@
-# Brainfudge 
+# Brainfudge
 Brainfudge is a brainfuck interpreter written in C++.
 ***Note: if you have a better name feel free to suggest***
-__I named it Brainfudge because i want to avoid swearing, but that not the case. __
+**I named it Brainfudge because i want to avoid swearing, but that not the case.**
 
 **Brainfuck** is a simple language written by Ürban Muller. it is a esoteric programming language, meaning it's very minimalistic. 
 the language only contains 8 valid characters **[ ] > < + - . ,** other characters 

@@ -18,7 +18,7 @@ std::string extract_syntax(const std::string& src, bool bIgnoreComments, bool bI
         if(src[i]=='>' || src[i]=='<' ||
            src[i]=='+' || src[i]=='-' ||
            src[i]=='[' || src[i]==']' ||
-           src[i]=='.' || src[i]==',')extracted.push_back(src[i]);
+           src[i]=='.' || src[i]==',' || src[i]=='$')extracted.push_back(src[i]);
     }
     return extracted;
 }
