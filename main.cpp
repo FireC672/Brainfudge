@@ -108,6 +108,7 @@ int main(int argc, char** argv){
                 if(token == '>' || token == '<')std::cout << PURPLE_CODE;
                 if(token == '+' || token == '-')std::cout << YELLOW_CODE;
                 if(token == '.' || token == ',')std::cout << BLUE_CODE;
+
                 if(token == '[' || token == ']'){
                     bool already = false;
                     // Don't allocate much stack memory.
@@ -124,6 +125,7 @@ int main(int argc, char** argv){
                     }
                     if(!already)std::cout << BOLD_TEXT << CYAN_CODE;
                 } 
+
                 if(token == '#' && !bIgnoreComments){
                     while(token != '\n' && i < data->size()){
                         token = data->at(i);
@@ -137,11 +139,14 @@ int main(int argc, char** argv){
                     i--;
                     continue;
                 }
+
                 if(token == '!' && !bIgnoreHalts)std::cout << BOLD_TEXT << RED_CODE;
-            
                 std::cout << token; 
+                if(token == '\n' && bDisplayLineNum){
+                    std::cout << YELLOW_CODE << currentline << ' ';
+                    currentline++;
+                }
                 std::cout << CLEAR_FLG;
-                currentline++;
             }
 
             std::cout << '\n';
