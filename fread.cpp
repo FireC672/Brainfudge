@@ -38,14 +38,7 @@ std::vector<int> invalid_loops(const std::string& src){
     for(int i = 0; i < src.size(); i++){
           if(src[i]=='[')loopstates.push_back(i);
           if(src[i]==']' && loopstates.size() > 0)loopstates.pop_back();
-          if(src[i]==']' && loopstates.size() == 0)loopstates.push_back(i);
+          //if(src[i]==']' && loopstates.size() == 0)loopstates.push_back(i);
     }
-    // NO NEED FOR SORTING
-    // struct{
-    //     bool operator()(int a, int b)const{
-    //         return a > b;
-    //     }
-    // }sl;
-    // std::sort(loopstates.begin(),loopstates.end(), sl);
     return loopstates;
 }
