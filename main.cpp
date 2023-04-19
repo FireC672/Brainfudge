@@ -94,7 +94,8 @@ int main(int argc, char** argv){
                 currline.push_back('\n');
                 for(auto& ch : currline)data->push_back(ch);
             }
-
+            std::vector<int> loops = invalid_loops(*data); 
+            
             infile.close();
             // Syntax highlighting.
             for(int i = 0; i < data->size(); i++){
