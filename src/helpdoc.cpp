@@ -14,6 +14,7 @@ std::string* inithelp(){
     "--syntax-highlight:         Switchs to the syntax highlighter."
     "\n--disable-comments:       Hides the comment."
     "\n--disable-commenthash:    Hides the \'#\' but still shows the comment."
-    "\n--line-number:            Shows the current line.\n";
+    "\n--line-number:            Shows the current line.\n"
+    "\n--precision-halt:         Shows the exact place where the halt happend.\n";
     return hlp;
 }

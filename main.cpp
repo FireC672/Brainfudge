@@ -21,6 +21,7 @@ bool bIgnoreHalts=false;
 bool bSignalHalt=true;
 bool bDisplaySettings=false;
 bool bCountInstructions=false;
+bool bDisplayWhereHalt=false;
 
 // Only for syntax-highlight mode.
 /* bDisplayCommentTag will show the '#' character before the comment. disable this, and it will be invisible*/
@@ -59,6 +60,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--prg-settings"))bDisplaySettings=true;
         if(!strcmp(argv[i],"--count-instructions"))bCountInstructions=true;
         if(!strcmp(argv[i],"--line-number"))bDisplayLineNum=true;
+        if(!strcmp(argv[i],"--precision-halt"))bDisplayWhereHalt=true;
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
            std::cout << "This program comes with absolutely no WARRANTY\n"
@@ -200,7 +202,6 @@ int main(int argc, char** argv){
     }
     byte_t* memory = new byte_t[memorysize];
     byte_t* ptr = memory;
-    std::cout << bdata;
     for(unsigned int i = 0; i < bdata.size(); i++){
         if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 
         if(bdata[i]=='<' && ptr > memory)ptr--; 
@@ -236,6 +237,11 @@ int main(int argc, char** argv){
 
     if(haltbreak && bSignalHalt){
         std::cout << "\n"<<BOLD_TEXT<<"*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
+        if(bDisplayWhereHalt=true){
+           for(int i = 0; i < 3; i++){
+             std::cout << bdata[3+haltpos];
+           }         
+        }
     }
 
     if(bCountInstructions){
