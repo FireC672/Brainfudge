@@ -13,7 +13,11 @@
 #include "prototypes/util.hpp"
 #include "prototypes/helpdoc.hpp"
 
+// Halt break: a flag that when set, force-exits the program,
+// with return code.
 bool haltbreak = false;
+// Halt pos: when the 'haltbreak' flag is set, then 
+// set it to the character position.
 int haltpos = 0;
 
 bool bIgnoreComments=false;
@@ -32,16 +36,18 @@ bool bDisplayComments=true;
 bool bDisplayLineNum;
 // -----------
 
-// Allocated size
+// Allocated size.
+// For incoming option '-m' 
 uint16_t memorysize = 1000;
 
 // Number of instructions.
-// The reason we make it unsigned it because, we can't have negative instructions.
+// The reason we make it unsigned it because, 
+// we can't have negative instructions.
 uint32_t instructions=0;
 
 
 int main(int argc, char** argv){
-    // If there are no arguments, then exist.
+    // If there are no arguments, then exit.
     if(argc < 2){
         std::cerr << "\033[31m\033[1merror: \033[0mNot enough arguments.\n";
         return 1;
@@ -54,13 +60,22 @@ int main(int argc, char** argv){
             delete help;
             return 0;
         }
-        if(!strcmp(argv[i], ("--ignore-comments")))bIgnoreComments=true;
-        if(!strcmp(argv[i],"--ignore-halts"))bIgnoreHalts=true;
-        if(!strcmp(argv[i],"--unsignal-halt"))bSignalHalt=false;
-        if(!strcmp(argv[i],"--prg-settings"))bDisplaySettings=true;
-        if(!strcmp(argv[i],"--count-instructions"))bCountInstructions=true;
-        if(!strcmp(argv[i],"--line-number"))bDisplayLineNum=true;
-        if(!strcmp(argv[i],"--precision-halt"))bDisplayWhereHalt=true;
+
+        if(!strcmp(argv[i],"--ignore-comments"))
+           bIgnoreComments=true;
+        if(!strcmp(argv[i],"--ignore-halts"))   
+           bIgnoreHalts=true;
+        if(!strcmp(argv[i],"--unsignal-halt"))  
+           bSignalHalt=false;
+        if(!strcmp(argv[i],"--prg-settings"))
+           bDisplaySettings=true;
+        if(!strcmp(argv[i],"--count-instructions"))
+           bCountInstructions=true;
+        if(!strcmp(argv[i],"--line-number"))
+           bDisplayLineNum=true;
+        if(!strcmp(argv[i],"--precision-halt"))
+          bDisplayWhereHalt=true;
+        
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
            std::cout << "This program comes with absolutely no WARRANTY\n"
@@ -87,12 +102,13 @@ int main(int argc, char** argv){
             return 0;
         }
 
-        if(!strcmp(argv[i],"--disable-commenthash"))bDisplayCommentTags=false;
-        if(!strcmp(argv[i],"--disable-comments"))bDisplayComments=false;
+        if(!strcmp(argv[i],"--disable-commenthash"))
+           bDisplayCommentTags=false;
+        if(!strcmp(argv[i],"--disable-comments"))
+           bDisplayComments=false;
+        
+        // The syntax highlighter.
         if(!strcmp(argv[i],"--syntax-highlight")){
-            // '--syntax-highlight' performs like the 'cat' command but color-code valid syntaxes,
-            // Comments are green (if --ignore-comment is disabled).
-            // Halts are red (if --ignore-halt is disabled).
             std::ifstream infile; 
             infile.open(argv[1],std::ios_base::in);
             if(!infile){
@@ -188,10 +204,20 @@ int main(int argc, char** argv){
         return 0;
     }
     
-    /*We put this in this scope, so that we free up quickly the stack.*/
+    /* We put this in this scope, so that we free up quickly the stack. */
     {
+        /*
+           check_loops() performs a for-loop.
+           when we hit a '[' add 1.
+           when we hit a ']' sub 1.
+
+           if all loops are closed and started. 
+           then we should receive a zero. 
+           else, it's an error. 
+        */
         int loopchecked = check_loops(bdata);
         if(loopchecked != 0){
+            // Print correct messages foreach case.
             if(loopchecked > 0){
                 std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "some loops don\'t have endings (" << loopchecked << " loop(s))\n";
             }else{
@@ -200,16 +226,25 @@ int main(int argc, char** argv){
             return 0;
         }
     }
+
+    // Allocate 'memory'
     byte_t* memory = new byte_t[memorysize];
+    // Set a pointer to the address (relative): 0.
     byte_t* ptr = memory;
     for(unsigned int i = 0; i < bdata.size(); i++){
-
+        
+        /* 
+         Safety feature: if the pointer address is less than the Most-signficant byte,
+         then increment.
+         */
         if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 
 
         if(bdata[i]=='<' && ptr > memory)ptr--; 
-
+        
+        // 255+1 => Overflow (ret: 0)
         if(bdata[i]=='+')(*ptr)++;
-
+        
+        // 0-1 => Overflow (ret: 255)
         if(bdata[i]=='-')(*ptr)--;
 
         if(bdata[i]=='.')std::cout << (char)*ptr; 
@@ -235,8 +270,8 @@ int main(int argc, char** argv){
     }
 
     if(haltbreak && bSignalHalt){
-        std::cout << "\n"<<BOLD_TEXT<<"*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
-        if(bDisplayWhereHalt=true){
+        std::cout << "\n" << BOLD_TEXT << "*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
+        if(bDisplayWhereHalt==true){
            for(int i = 0; i < 3; i++){
              std::cout << bdata[3+haltpos];
            }         
