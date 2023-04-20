@@ -142,7 +142,7 @@ int main(int argc, char** argv){
                             token = data->at(i+1);
                             i++;
                         }
-                        if(bDisplayComments) std::cout << BOLD_TEXT <<GREEN_CODE << token << CLEAR_FLG;
+                        if(bDisplayComments) std::cout << BOLD_TEXT << GREEN_CODE << token << CLEAR_FLG;
                         i++;
                     }
                     i--;
@@ -169,7 +169,7 @@ int main(int argc, char** argv){
     
     // If the file is 'Imaginary' then exit.
     if(!infile){
-       std::cerr << RED_CODE << BOLD_TEXT <<"error: " << CLEAR_FLG << "Provided source file is nonexistant.\n";
+       std::cerr << RED_CODE << BOLD_TEXT << "error: " << CLEAR_FLG << "Provided source file is nonexistant.\n";
        return 2;
     }
 
@@ -203,30 +203,29 @@ int main(int argc, char** argv){
     byte_t* memory = new byte_t[memorysize];
     byte_t* ptr = memory;
     for(unsigned int i = 0; i < bdata.size(); i++){
+
         if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 
+
         if(bdata[i]=='<' && ptr > memory)ptr--; 
+
         if(bdata[i]=='+')(*ptr)++;
+
         if(bdata[i]=='-')(*ptr)--;
+
         if(bdata[i]=='.')std::cout << (char)*ptr; 
+
         if(bdata[i]==',')std::cin >> *ptr;
-        //if(bdata[i] == '$')std::cout << "value at " << std::hex << std::addressof(ptr) << "=" << (int)*ptr << '\n';
+
         if(bdata[i]=='['){
-            if((*ptr)==0){
-               while(bdata[i]!=']'){
-                std::cout << "currently go to end";
-                i++;
-               }
-            }
+            if((*ptr)==0)while(bdata[i]!=']')
+               i++;
         }
-        if(bdata[i]=='['){
-            if((*ptr)!=0){
-                while(bdata[i]!=']')
-                {
-                    
-                    i--;
-                }
-            }
+
+        if(bdata[i]==']'){
+            if((*ptr)!=0)while(bdata[i]!='[')
+               i--;
         }
+
         if(bdata[i]=='!'){
             haltbreak=true;
             haltpos = i;
