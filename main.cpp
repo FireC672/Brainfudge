@@ -200,7 +200,7 @@ int main(int argc, char** argv){
     }
     byte_t* memory = new byte_t[memorysize];
     byte_t* ptr = memory;
-
+    std::cout << bdata;
     for(unsigned int i = 0; i < bdata.size(); i++){
         if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 
         if(bdata[i]=='<' && ptr > memory)ptr--; 
@@ -208,14 +208,23 @@ int main(int argc, char** argv){
         if(bdata[i]=='-')(*ptr)--;
         if(bdata[i]=='.')std::cout << (char)*ptr; 
         if(bdata[i]==',')std::cin >> *ptr;
-        if(bdata[i] == '$')std::cout << "value at " << std::hex << std::addressof(ptr) << "=" << (int)*ptr << '\n';
+        //if(bdata[i] == '$')std::cout << "value at " << std::hex << std::addressof(ptr) << "=" << (int)*ptr << '\n';
         if(bdata[i]=='['){
             if((*ptr)==0){
-               while(bdata[i]!=']')i++;
+               while(bdata[i]!=']'){
+                std::cout << "currently go to end";
+                i++;
+               }
             }
         }
-        if(bdata[i]==']'){
-            if((*ptr)!=0){while(bdata[i]!=']')i--;}
+        if(bdata[i]=='['){
+            if((*ptr)!=0){
+                while(bdata[i]!=']')
+                {
+                    
+                    i--;
+                }
+            }
         }
         if(bdata[i]=='!'){
             haltbreak=true;
