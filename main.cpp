@@ -74,7 +74,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--line-number"))
            bDisplayLineNum=true;
         if(!strcmp(argv[i],"--precision-halt"))
-          bDisplayWhereHalt=true;
+           bDisplayWhereHalt=true;
         
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
@@ -133,7 +133,7 @@ int main(int argc, char** argv){
                 if(token == '>' || token == '<')std::cout << PURPLE_CODE;
                 if(token == '+' || token == '-')std::cout << YELLOW_CODE;
                 if(token == '.' || token == ',')std::cout << BLUE_CODE;
-                if(token == '$')std::cout << YELLOW_CODE;
+                // if(token == '$')std::cout << YELLOW_CODE; (Forgot to comment out this.)
                 if(token == '[' || token == ']'){
                     bool already = false;
                     // Don't allocate much stack memory.

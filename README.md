@@ -22,3 +22,7 @@ meaning the project is open-source and free from warranty. you can fork
 or clone the project and add your own features to the language or interpreter.
 
 for more licensing information type **./bfudge -license**.
+
+# Compile it & Run it
+I provided a shell-script that does the work for you. 
+just type the name of the program as positional-argument.
