@@ -230,34 +230,34 @@ int main(int argc, char** argv){
     // Allocate 'memory'
     byte_t* memory = new byte_t[memorysize];
     // Set a pointer to the address (relative): 0.
-    byte_t* ptr = memory;
+    unsigned int ptr = 0;
     for(unsigned int i = 0; i < bdata.size(); i++){
         
         /* 
          Safety feature: if the pointer address is less than the Most-signficant byte,
          then increment.
          */
-        if(bdata[i]=='>' && ptr < &memory[memorysize-1])ptr++; 
+        if(bdata[i]=='>')ptr++; 
 
-        if(bdata[i]=='<' && ptr > memory)ptr--; 
+        if(bdata[i]=='<')ptr--; 
         
         // 255+1 => Overflow (ret: 0)
-        if(bdata[i]=='+')(*ptr)++;
+        if(bdata[i]=='+')memory[ptr]++;
         
         // 0-1 => Overflow (ret: 255)
-        if(bdata[i]=='-')(*ptr)--;
+        if(bdata[i]=='-')memory[ptr]--;
 
-        if(bdata[i]=='.')std::cout << (char)*ptr; 
+        if(bdata[i]=='.')std::cout << (char)memory[ptr]; 
 
-        if(bdata[i]==',')std::cin >> *ptr;
+        if(bdata[i]==',')std::cin >> memory[ptr];
 
         if(bdata[i]=='['){
-            if((*ptr)==0)while(bdata[i]!=']')
+            if(memory[ptr]==0)while(bdata[i]!=']')
                i++;
         }
 
         if(bdata[i]==']'){
-            if((*ptr)!=0)while(bdata[i]!='[')
+            if(memory[ptr]!=0)while(bdata[i]!='[')
                i--;
         }
 
