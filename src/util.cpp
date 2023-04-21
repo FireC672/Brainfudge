@@ -31,7 +31,7 @@ uint32_t upowi(uint32_t b, uint32_t n){
 }
 
 uint32_t str_uint(const std::string& str){
-    if(str.size() == 0)return 0u; 
+/*    if(str.size() == 0)return 0u; 
     int j = 0; 
     std::string dig;
     for(j = 0; j < str.size();j++){
@@ -45,5 +45,20 @@ uint32_t str_uint(const std::string& str){
         tot += (dig[i]-'0') * upowi(10,j);
     }
 
+    return tot;*/
+
+    if(str.empty())return 0u;
+    std::string dig;
+    for(int j = 0; j < str.size();j++){
+        if(str[j] >= '0' && str[j] <= '9')dig.push_back(str[j]);
+    }
+    if(dig.empty())return 0u;
+    
+    int i = dig.size()-1;
+    unsigned int tot = 0;
+    for(int j = 0; j < dig.size();j++){
+       tot += (dig[j]-'0') * (upowi(10,i));
+       i--;
+    }
     return tot;
 }

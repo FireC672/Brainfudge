@@ -87,7 +87,7 @@ int main(int argc, char** argv){
             offest=0;
             if(i+1 < argc) {
                // next argument: will be offest.
-               offest = std::atoi(argv[i+1]);
+               offest = str_uint(argv[i+1]);
                i+=2;
             }
         }
@@ -149,10 +149,8 @@ int main(int argc, char** argv){
                 if(token == '>' || token == '<')std::cout << PURPLE_CODE;
                 if(token == '+' || token == '-')std::cout << YELLOW_CODE;
                 if(token == '.' || token == ',')std::cout << BLUE_CODE;
-                // if(token == '$')std::cout << YELLOW_CODE; (Forgot to comment out this.)
                 if(token == '[' || token == ']'){
                     bool already = false;
-                    // Don't allocate much stack memory.
                     {
                      std::vector<int>::iterator it; 
                      for(it = loops.begin(); it != loops.end();i++){
@@ -199,7 +197,6 @@ int main(int argc, char** argv){
     std::ifstream infile; 
     infile.open(argv[1],std::ios_base::in);
     
-    // If the file is 'Imaginary' then exit.
     if(!infile){
        std::cerr << RED_CODE << BOLD_TEXT << "error: " << CLEAR_FLG << "Provided source file is nonexistant.\n";
        return 2;
@@ -233,7 +230,6 @@ int main(int argc, char** argv){
         */
         int loopchecked = check_loops(bdata);
         if(loopchecked != 0){
-            // Print correct messages foreach case.
             if(loopchecked > 0){
                 std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "some loops don\'t have endings (" << loopchecked << " loop(s))\n";
             }else{
@@ -261,10 +257,8 @@ int main(int argc, char** argv){
         if(ptr > max_reached)
            max_reached = static_cast<uint32_t>(ptr);
         
-        // 255+1 => Overflow (ret: 0)
         if(bdata[i]=='+')memory[ptr]++;
         
-        // 0-1 => Overflow (ret: 255)
         if(bdata[i]=='-')memory[ptr]--;
 
         if(bdata[i]=='.')std::cout << (char)memory[ptr]; 
