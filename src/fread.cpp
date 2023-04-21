@@ -12,7 +12,6 @@ std::string extract_syntax(const std::string& src, bool bIgnoreComments, bool bI
         if(src[i] == '!' && !bIgnoreHalts){
             // This will happen at runtime.
             extracted.push_back(src[i]);
-            break;
         }
 
         if(src[i]=='>' || src[i]=='<' ||
