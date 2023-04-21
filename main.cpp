@@ -26,6 +26,7 @@ bool bSignalHalt=true;
 bool bDisplaySettings=false;
 bool bCountInstructions=false;
 bool bDisplayWhereHalt=false;
+bool bDumpGeneralMemory=false;
 
 // Only for syntax-highlight mode.
 /* bDisplayCommentTag will show the '#' character before the comment. disable this, and it will be invisible*/
@@ -45,6 +46,9 @@ uint16_t memorysize = 1000;
 // we can't have negative instructions.
 uint32_t instructions=0;
 
+// If the pointer is bigger than this value, then overwrite it with
+// the current pointer value.
+uint32_t max_reached=0;
 
 int main(int argc, char** argv){
     // If there are no arguments, then exit.
@@ -75,6 +79,8 @@ int main(int argc, char** argv){
            bDisplayLineNum=true;
         if(!strcmp(argv[i],"--precision-halt"))
            bDisplayWhereHalt=true;
+        if(!strcmp(argv[i],"--memory-dump"))
+           bDumpGeneralMemory=true;
         
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
@@ -240,6 +246,10 @@ int main(int argc, char** argv){
         if(bdata[i]=='>')ptr++; 
 
         if(bdata[i]=='<')ptr--; 
+
+        
+        if(ptr > max_reached)
+           max_reached = static_cast<uint32_t>(ptr);
         
         // 255+1 => Overflow (ret: 0)
         if(bdata[i]=='+')memory[ptr]++;
@@ -280,6 +290,18 @@ int main(int argc, char** argv){
 
     if(bCountInstructions){
         std::cout << "\nFinished " << BOLD_TEXT << CYAN_CODE << instructions << CLEAR_FLG << " instructions.\n";
+    }
+    
+    if(bDumpGeneralMemory){
+        std::cout << "+--------------------------------+\n";
+        std::cout << BOLD_TEXT << "Dumped Memory:\n" << CLEAR_FLG;
+        printf("%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+        for(int i = 0; i < max_reached;i++){
+            if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i);
+            if(i == ptr)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+            printf("%.2x ",memory[i]);
+            printf(CLEAR_FLG);
+        }
     }
 
     std::cout << '\n';

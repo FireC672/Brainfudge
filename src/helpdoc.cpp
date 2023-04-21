@@ -15,6 +15,8 @@ std::string* inithelp(){
     "\n--disable-comments:       Hides the comment."
     "\n--disable-commenthash:    Hides the \'#\' but still shows the comment."
     "\n--line-number:            Shows the current line.\n"
-    "\n--precision-halt:         Shows the exact place where the halt happend.\n";
+    "\n--precision-halt:         Shows the exact place where the halt happend.\n"
+    "\n--memory-dump:            Shows the current state of memory at the end of the program.\n"
+    "  ~~~~~~~~~~~~~^ -> NOTE: The Yellow-Colored byte is the current location of the pointer.\n";
     return hlp;
 }
