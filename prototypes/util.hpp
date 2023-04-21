@@ -21,4 +21,7 @@ typedef unsigned char byte_t;
 std::string str_c(char* chbuff, size_t csize);
 // String to int.
 int str_int(const std::string& str);
+uint32_t upowi(uint32_t b, uint32_t n);
+uint32_t str_uint(const std::string& str);
+
 #endif

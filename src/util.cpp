@@ -2,6 +2,7 @@
 #include <string>
 #include <cmath>
 #include <cctype>
+#include <vector>
 
 std::string str_c(char* chbuff, size_t csize){
     std::string b; 
@@ -19,5 +20,30 @@ int str_int(const std::string& str){
        tot += static_cast<int>((str[i]-'0')*pow(10,k));
        k--;
     }
+    return tot;
+}
+
+
+uint32_t upowi(uint32_t b, uint32_t n){
+    uint32_t t = 1;
+    for(int i = 0; i < n; i++)t*=b; 
+    return t;
+}
+
+uint32_t str_uint(const std::string& str){
+    if(str.size() == 0)return 0u; 
+    int j = 0; 
+    std::string dig;
+    for(j = 0; j < str.size();j++){
+        if(isdigit(str[j]))dig.push_back(str[j]);
+    }
+
+    uint32_t tot = 0;
+
+    for(int i = dig.size()-1;i >= 0; i++){
+        int j = dig.size()-i;
+        tot += (dig[i]-'0') * upowi(10,j);
+    }
+
     return tot;
 }

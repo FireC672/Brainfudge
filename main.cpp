@@ -50,9 +50,12 @@ uint32_t instructions=0;
 // the current pointer value.
 uint32_t max_reached=0;
 
+// Offest is used in memory dump.
+int offest=0;
+
 int main(int argc, char** argv){
     // If there are no arguments, then exit.
-    if(argc < 2){
+    if(argc == 1){
         std::cerr << "\033[31m\033[1merror: \033[0mNot enough arguments.\n";
         return 1;
     }
@@ -79,8 +82,15 @@ int main(int argc, char** argv){
            bDisplayLineNum=true;
         if(!strcmp(argv[i],"--precision-halt"))
            bDisplayWhereHalt=true;
-        if(!strcmp(argv[i],"--memory-dump"))
-           bDumpGeneralMemory=true;
+        if(!strcmp(argv[i],"--memory-dump")){
+            bDumpGeneralMemory = true;
+            offest=0;
+            if(i+1 < argc) {
+               // next argument: will be offest.
+               offest = std::atoi(argv[i+1]);
+               i+=2;
+            }
+        }
         
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
@@ -296,7 +306,7 @@ int main(int argc, char** argv){
         std::cout << "+--------------------------------+\n";
         std::cout << BOLD_TEXT << "Dumped Memory:\n" << CLEAR_FLG;
         printf("%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-        for(int i = 0; i < max_reached;i++){
+        for(int i = 0; i < max_reached+offest;i++){
             if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i);
             if(i == ptr)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
             printf("%.2x ",memory[i]);
