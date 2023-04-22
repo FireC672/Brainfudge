@@ -12,6 +12,7 @@
 #include "prototypes/fread.hpp"
 #include "prototypes/util.hpp"
 #include "prototypes/helpdoc.hpp"
+#include "prototypes/mem.hpp"
 
 // Halt break: a flag that when set, force-exits the program,
 // with return code.
@@ -32,7 +33,7 @@ bool bCustomMemoryDump=false;
 // Custom memory dump things.
 
 /* This hold snapshots of memory. */
-std::vector<byte_t*> snapshots;
+std::vector<mem_snapshot*> snapshots;
 /* This is the token that will trigger the snapshot */
 char snapshot_token = '%';
 

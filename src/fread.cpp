@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-std::string extract_syntax(const std::string& src, bool bIgnoreComments, bool bIgnoreHalts){
+std::string extract_syntax(const std::string& src, bool bIgnoreComments, bool bIgnoreHalts, char snapshot_token, bool bSaveSnapshot){
     std::string extracted; 
     for(int i = 0; i < src.size(); i++){
         if(src[i] == '#' && !bIgnoreComments){
@@ -17,7 +17,7 @@ std::string extract_syntax(const std::string& src, bool bIgnoreComments, bool bI
         if(src[i]=='>' || src[i]=='<' ||
            src[i]=='+' || src[i]=='-' ||
            src[i]=='[' || src[i]==']' ||
-           src[i]=='.' || src[i]==',')extracted.push_back(src[i]);
+           src[i]=='.' || src[i]==',' || (src[i] == snapshot_token && bSaveSnapshot))extracted.push_back(src[i]);
     }
     return extracted;
 }
