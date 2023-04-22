@@ -105,6 +105,15 @@ int main(int argc, char** argv){
                 return 4;
             }
 
+            // Check out for conflicts. 
+            if(isBuiltinToken(snapshot_token)){
+                // Then conflict. 
+                std::cerr << RED_CODE << BOLD_TEXT 
+                          << "error: " << CLEAR_FLG 
+                          << "Snapshot token " << snapshot_token << " is ambigious, syntax-conflict.\n";
+                return -4;
+            }
+
             bCustomMemoryDump=true;
 
             i+=2;
@@ -182,6 +191,8 @@ int main(int argc, char** argv){
                     }
                     if(!already)std::cout << BOLD_TEXT << CYAN_CODE;
                 } 
+
+                if(token == snapshot_token && bCustomMemoryDump)std::cout << BOLD_TEXT << YELLOW_CODE;
 
                 if(token == '#' && !bIgnoreComments){
                     while(token != '\n' && i < data->size()){

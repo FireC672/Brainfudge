@@ -16,4 +16,6 @@ int check_loops(const std::string& src);
 
 // This will register the index of invalid loops.
 std::vector<int> invalid_loops(const std::string& src);
+// Checks if the character is a brainfuck built-in command 
+bool isBuiltinToken(const char& c);
 #endif
