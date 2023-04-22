@@ -93,6 +93,8 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--memory-dump")){
             bDumpGeneralMemory = true;
             offest=0;
+        }
+
         if(!strcmp(argv[i],"--snapshot-mem")){
             snapshot_token = argv[i+1][0];
             if(i+1 > argc){
@@ -105,12 +107,6 @@ int main(int argc, char** argv){
             bCustomMemoryDump=true;
 
             i+=2;
-        }
-            if(i+1 < argc) {
-               // next argument: will be offest.
-               offest = str_uint(argv[i+1]);
-               i+=2;
-            }
         }
         
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
