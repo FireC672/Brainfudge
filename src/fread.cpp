@@ -45,5 +45,5 @@ std::vector<int> invalid_loops(const std::string& src){
 // Useful for finding conflicts
 bool isBuiltinToken(const char& c){
     return (c == '>' || c == '<' || c == '+' || c == '-' || c == '[' || c == ']'
-            c == '.' || c == ',' || c == '#' || c == '!');
+           || c == '.' || c == ',' || c == '#' || c == '!');
 }

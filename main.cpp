@@ -234,7 +234,7 @@ int main(int argc, char** argv){
     // The reason we allocate a pointer, is to prevent stack-space limitation issues.
     std::string* filedata = new std::string("");
     while(!infile.eof())filedata->push_back(infile.get());
-    std::string bdata = extract_syntax(*filedata,bIgnoreComments,bIgnoreHalts);
+    std::string bdata = extract_syntax(*filedata,bIgnoreComments,bIgnoreHalts,snapshot_token,bCustomMemoryDump);
     delete filedata;
     infile.close();
 

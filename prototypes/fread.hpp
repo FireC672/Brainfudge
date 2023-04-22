@@ -10,7 +10,7 @@
 // extract_syntax() will extract the valid syntax.
 // 'bIgnoreComments' will ignore comments in the code (all characters followed by '#' will be treated as comment even if they are valid syntax)
 // 'bIgnoreHalts' will ignore halts '!'
-std::string extract_syntax(const std::string& src, bool bIgnoreComments=false, bool bIgnoreHalts=false);
+std::string extract_syntax(const std::string& src, bool bIgnoreComments=false, bool bIgnoreHalts=false, char snapshot_token='%', bool bSaveSnapshot=false);
 // This function will check, if all the loops in the program have endings & beginnings.
 int check_loops(const std::string& src);
 
