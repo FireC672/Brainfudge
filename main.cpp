@@ -57,7 +57,7 @@ uint32_t instructions=0;
 
 // If the pointer is bigger than this value, then overwrite it with
 // the current pointer value.
-uint32_t max_reached=0;
+uint32_t max_reached=1;
 
 // Offest is used in memory dump.
 int offest=0;
@@ -97,7 +97,7 @@ int main(int argc, char** argv){
         }
 
         if(!strcmp(argv[i],"--snapshot-mem")){
-            snapshot_token = argv[i+1][0];
+            snapshot_token = '%';
             if(i+1 > argc){
                 std::cerr << RED_CODE << BOLD_TEXT 
                           << "error: " << CLEAR_FLG 
@@ -313,6 +313,8 @@ int main(int argc, char** argv){
         if(bdata[i] == snapshot_token && bCustomMemoryDump){
             mem_snapshot* dsMemorySnapshot = new mem_snapshot;
             dsMemorySnapshot->memory = new byte_t[sizeof(byte_t)*max_reached];
+            // Initializing is key, but setting value is also key.
+            memcpy(dsMemorySnapshot->memory,memory,max_reached);
             dsMemorySnapshot->memory_len=max_reached; 
             dsMemorySnapshot->current_loc=ptr; 
             snapshots.push_back(dsMemorySnapshot);
@@ -337,6 +339,9 @@ int main(int argc, char** argv){
     if(bDumpGeneralMemory){
         std::cout << "+--------------------------------+\n";
         std::cout << BOLD_TEXT << "Dumped Memory:\n" << CLEAR_FLG;
+        if(max_reached == 0){
+           printf("\t General Memory dump is empty.\n");
+        }else {
         printf("%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
         for(int i = 0; i < max_reached+offest;i++){
             if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i);
@@ -344,16 +349,24 @@ int main(int argc, char** argv){
             printf("%.2x ",memory[i]);
             printf(CLEAR_FLG);
         }
-        printf("Snapshots: \n\n");
+      }
+        printf("+------------------------------+\n");
+
+        putchar('\n\n');
+        printf("%sSnapshots: %s\n\n",BOLD_TEXT,CLEAR_FLG);
         int nSnapshotC = 1;
         for(auto& snapshot : snapshots){
-            printf("Snapshot %i:",nSnapshotC);
-            for(int i = 0; i < snapshot->memory_len ;i++){
-              if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i);
-              if(i == snapshot->current_loc)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
-              printf("%.2x ",snapshot->memory[i]);
-              printf(CLEAR_FLG);
-            }   
+            printf("%sSnapshot_%i: %s",BOLD_TEXT,nSnapshotC,CLEAR_FLG);
+            if(snapshot->memory_len == 0){
+                printf("\n\tSnapshot empty.\n");
+            }else {
+             for(int i = 0; i < snapshot->memory_len ;i++){
+               if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i);
+               if(i == snapshot->current_loc)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+               printf("%.2x ",snapshot->memory[i]);
+               printf(CLEAR_FLG);
+             }   
+            }
             nSnapshotC++;
             printf("\n");
         }
