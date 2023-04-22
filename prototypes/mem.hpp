@@ -8,6 +8,6 @@ struct mem_snapshot{
     int memory_len;
 };
 
-mem_snapshot* save_snapshot(byte* m, int ptr, int len);
+//mem_snapshot* save_snapshot(byte* m, int ptr, int len);
 
 #endif

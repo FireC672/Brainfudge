@@ -311,7 +311,10 @@ int main(int argc, char** argv){
         }
 
         if(bdata[i] == snapshot_token && bCustomMemoryDump){
-            mem_snapshot* dsMemorySnapshot = save_snapshot(memory,ptr,max_reached);
+            mem_snapshot* dsMemorySnapshot = new mem_snapshot;
+            dsMemorySnapshot->memory = new byte_t[sizeof(byte_t)*max_reached];
+            dsMemorySnapshot->memory_len=max_reached; 
+            dsMemorySnapshot->current_loc=ptr; 
             snapshots.push_back(dsMemorySnapshot);
         }
 
