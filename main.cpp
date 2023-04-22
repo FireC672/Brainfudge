@@ -309,6 +309,12 @@ int main(int argc, char** argv){
             haltpos = i;
             break;
         }
+
+        if(bdata[i] == snapshot_token && bCustomMemoryDump){
+            mem_snapshot* dsMemorySnapshot = save_snapshot(memory,ptr,max_reached);
+            snapshots.push_back(dsMemorySnapshot);
+        }
+
         instructions++;
     }
 
@@ -335,8 +341,26 @@ int main(int argc, char** argv){
             printf("%.2x ",memory[i]);
             printf(CLEAR_FLG);
         }
+        printf("Snapshots: \n\n");
+        int nSnapshotC = 1;
+        for(auto& snapshot : snapshots){
+            printf("Snapshot %i:",nSnapshotC);
+            for(int i = 0; i < snapshot->memory_len ;i++){
+              if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i);
+              if(i == snapshot->current_loc)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+              printf("%.2x ",snapshot->memory[i]);
+              printf(CLEAR_FLG);
+            }   
+            nSnapshotC++;
+            printf("\n");
+        }
     }
-
+    
+    // free up the snapshots. 
+    for(auto& snapshot_ptr : snapshots){
+        delete snapshot_ptr->memory;
+        delete snapshot_ptr;
+    }
     std::cout << '\n';
 
     return 0;
