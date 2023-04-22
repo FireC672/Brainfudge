@@ -27,6 +27,14 @@ bool bDisplaySettings=false;
 bool bCountInstructions=false;
 bool bDisplayWhereHalt=false;
 bool bDumpGeneralMemory=false;
+bool bCustomMemoryDump=false;
+
+// Custom memory dump things.
+
+/* This hold snapshots of memory. */
+std::vector<byte_t*> snapshots;
+/* This is the token that will trigger the snapshot */
+char snapshot_token = '%';
 
 // Only for syntax-highlight mode.
 /* bDisplayCommentTag will show the '#' character before the comment. disable this, and it will be invisible*/
@@ -85,6 +93,19 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--memory-dump")){
             bDumpGeneralMemory = true;
             offest=0;
+        if(!strcmp(argv[i],"--snapshot-mem")){
+            snapshot_token = argv[i+1][0];
+            if(i+1 > argc){
+                std::cerr << RED_CODE << BOLD_TEXT 
+                          << "error: " << CLEAR_FLG 
+                          << "option --snapshot-mem need a second argument.\n";
+                return 4;
+            }
+
+            bCustomMemoryDump=true;
+
+            i+=2;
+        }
             if(i+1 < argc) {
                // next argument: will be offest.
                offest = str_uint(argv[i+1]);

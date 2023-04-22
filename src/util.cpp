@@ -50,7 +50,7 @@ uint32_t str_uint(const std::string& str){
     if(str.empty())return 0u;
     std::string dig;
     for(int j = 0; j < str.size();j++){
-        if(str[j] >= '0' && str[j] <= '9')dig.push_back(str[j]);
+        if(str[j] >= '0' && str[j] <= '9')dig.push_back(str[j]);
     }
     if(dig.empty())return 0u;
     
