@@ -1,9 +1,7 @@
 # Brainfudge
 Brainfudge is a brainfuck interpreter written in C++.
 
-
 ***Note: if you have a better name feel free to suggest***
-
 
 **Brainfuck** is a simple language written by Ürban Muller. it is a esoteric programming language, meaning it's very minimalistic. The language is really hard and not practical, hence the name brainfuck, but it is fun coding with it. 
 I saw many interpreters like <a href="copy.sh/brainfuck">El Brainfuck</a> a really cool one and others. I will probably mention them under.
