@@ -299,10 +299,12 @@ int main(int argc, char** argv){
 
         if(bdata[i]=='['){
             loops.push(i);
+            if(memory[ptr]==0){
+                while(bdata[i]!=']')i++;
+            }
         }
-
         if(bdata[i]==']'){
-            if(memory[i] != 0){
+            if(memory[ptr] != 0){
                 i = loops.top();
             }
             loops.pop();
@@ -347,7 +349,7 @@ int main(int argc, char** argv){
            printf("\t General Memory dump is empty.\n");
         }else {
         printf("%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-        for(int i = 0; i < max_reached+offest;i++){
+        for(int i = 0; i < max_reached+1;i++){
             if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
             if(i == ptr)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
             printf("%.2x ",memory[i]);
