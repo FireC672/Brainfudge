@@ -9,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <stack>
 #include "prototypes/fread.hpp"
 #include "prototypes/util.hpp"
 #include "prototypes/helpdoc.hpp"
@@ -273,6 +274,7 @@ int main(int argc, char** argv){
     memset(memory,0,memorysize);
     // Set a pointer to the address (relative): 0.
     unsigned int ptr = 0;
+    std::stack<int> loops;
     for(unsigned int i = 0; i < bdata.size(); i++){
         
         /* 
@@ -296,13 +298,14 @@ int main(int argc, char** argv){
         if(bdata[i]==',')std::cin >> memory[ptr];
 
         if(bdata[i]=='['){
-            if(memory[ptr]==0)while(bdata[i]!=']')
-               i++;
+            loops.push(i);
         }
 
         if(bdata[i]==']'){
-            if(memory[ptr]!=0)while(bdata[i]!='[')
-               i--;
+            if(memory[i] != 0){
+                i = loops.top();
+            }
+            loops.pop();
         }
 
         if(bdata[i]=='!'){
