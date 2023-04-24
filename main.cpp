@@ -343,7 +343,7 @@ int main(int argc, char** argv){
     }
     
     if(bDumpGeneralMemory){
-        std::cout << "\n+--------------------------------+\n";
+        std::cout << "\n\n\n+--------------------------------+\n";
         std::cout << BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
         if(max_reached == 0){
            printf("\t General Memory dump is empty.\n");
