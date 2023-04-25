@@ -106,12 +106,12 @@ int main(int argc, char** argv){
 
         if(!strcmp(argv[i],"--snapshot-mem")){
             snapshot_token = '%';
-            if(i+1 > argc){
-                std::cerr << RED_CODE << BOLD_TEXT 
-                          << "error: " << CLEAR_FLG 
-                          << "option --snapshot-mem need a second argument.\n";
-                return 4;
-            }
+            // if(i+1 > argc){
+            //     std::cerr << RED_CODE << BOLD_TEXT 
+            //               << "error: " << CLEAR_FLG 
+            //               << "option --snapshot-mem need a second argument.\n";
+            //     return 4;
+            // }
 
             // Check out for conflicts. 
             if(isBuiltinToken(snapshot_token)){
@@ -317,7 +317,12 @@ int main(int argc, char** argv){
         }
 
         if(bdata[i] == snapshot_token && bCustomMemoryDump){
-            push_snapshot(memory,ptr,max_reached,snapshots);
+            mem_snapshot* sn = new mem_snapshot();
+            sn->memory = new unsigned char[max_reached];
+            sn->memory_len=max_reached;
+            sn->current_loc=ptr;
+            memcpy(sn->memory,memory,max_reached);
+            snapshots.push_back(sn);
         }
 
         instructions++;
@@ -354,19 +359,22 @@ int main(int argc, char** argv){
         }
 
         printf("\n\n");
-        printf("%sSnapshots (%lu): %s\n\n",BOLD_TEXT,snapshots.size(),CLEAR_FLG);
+        printf("%sSnapshots (%lu): %s\n",BOLD_TEXT,snapshots.size(),CLEAR_FLG);
         int nSnapshotC = 1;
-        for(auto& snapshot : snapshots){
-            printf("%sSnapshot_%i: %s",BOLD_TEXT,nSnapshotC,CLEAR_FLG);
+        for(auto& snapshot : snapshots){  
+            std::cout << "\n\n+-----------------------------------------+\n";
+            printf("| %sSnapshot_%i: %s",BOLD_TEXT,nSnapshotC,CLEAR_FLG);
             if(snapshot->memory_len == 0){
                 printf("\n\tSnapshot empty.\n");
             }else {
-             for(int i = 0; i < snapshot->memory_len ;i++){
-               if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
-               if(i == snapshot->current_loc)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+             printf("\n| %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+             for(int i = 0; i < snapshot->memory_len+1 ;i++){
+               if(i%10 == 0 && i!=0)printf("|\n| %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
+               if(i+1 == snapshot->current_loc+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
                printf("%.2x ",snapshot->memory[i]);
                printf(CLEAR_FLG);
              }   
+             std::cout << "\n+-----------------------------------------+\n";
              printf("\nLast pointer location: %i (0x%x)\n",snapshot->current_loc,snapshot->current_loc);
             }
             nSnapshotC++;
@@ -393,7 +401,13 @@ int main(int argc, char** argv){
       }
     
     // free up the snapshots. 
-    clear_snapshotholder(snapshots);
+    while(!snapshots.empty()){
+        delete (*(snapshots.end()))->memory;
+        delete (*(snapshots.end()));
+        snapshots.pop_back();
+    }
+
+    snapshots.clear();
     std::cout << '\n';
 
     return 0;
