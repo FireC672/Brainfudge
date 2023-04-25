@@ -2,19 +2,19 @@
 #define MEM_INCLUDED_HPP 
 #include <vector>
 
-typedef unsigned char byte;
+//typedef unsigned char unsigned char;
 struct mem_snapshot{
-    byte* memory; 
+    unsigned char* memory; 
     int current_loc;
     int memory_len;
 };
 
-//mem_snapshot* save_snapshot(byte* m, int ptr, int len);
+//mem_snapshot* save_snapshot(unsigned char* m, int ptr, int len);
 
 
 // Creates a memory snapshot at point 't', allocates it onto the heap, then push it onto the snapshot holder.
 void push_snapshot
-     (byte* m, const int& cptr, const int& mlen, std::vector<mem_snapshot*>& snapshot_holder);
+     (unsigned char* m, const int& cptr, const int& mlen, std::vector<mem_snapshot*>& snapshot_holder);
 
 // Automatically, clears the snapshot holder by deleting & freeing up memory
 void clear_snapshotholder(std::vector<mem_snapshot*>& snapshot_holder);

@@ -1,8 +1,7 @@
 #include "mem.hpp"
 #include <vector>
 
-void push_snapshot
-     (byte* m, const int& cptr, const int& mlen, std::vector<mem_snapshot*>& snapshot_holder){
+void push_snapshot (unsigned char* m, const int& cptr, const int& mlen, std::vector<mem_snapshot*>& snapshot_holder){
 
    mem_snapshot* ptrMemorySnapshotTake = new mem_snapshot(); 
    ptrMemorySnapshotTake->current_loc=cptr;
