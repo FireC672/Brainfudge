@@ -268,9 +268,9 @@ int main(int argc, char** argv){
         int loopchecked = check_loops(bdata);
         if(loopchecked != 0){
             if(loopchecked > 0){
-                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "Unmatched ] (" << loopchecked << " loop(s))\n";
+                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "Unmatched \']\' (" << loopchecked << ") loop(s))\n";
             }else{
-                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "Unmatched [" << (loopchecked/-1) << " loop(s))\n";
+                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "Unmatched \'[\' (" << (loopchecked/-1) << ") loop(s))\n";
             }
             return 0;
         }
@@ -421,6 +421,6 @@ int main(int argc, char** argv){
 
     snapshots.clear();
     std::cout << '\n';
-
+    delete[] memory;
     return 0;
 }
