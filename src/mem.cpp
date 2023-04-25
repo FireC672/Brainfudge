@@ -2,7 +2,7 @@
 #include <vector>
 
 void push_snapshot
-     (byte* m, int& cptr, int& mlen, std::vector<mem_snapshot*>& snapshot_holder){
+     (byte* m, const int& cptr, const int& mlen, std::vector<mem_snapshot*>& snapshot_holder){
 
    mem_snapshot* ptrMemorySnapshotTake = new mem_snapshot(); 
    ptrMemorySnapshotTake->current_loc=cptr;
