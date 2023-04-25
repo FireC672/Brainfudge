@@ -316,10 +316,10 @@ int main(int argc, char** argv){
         }
 
         if(bdata[i]=='['){
-            if(memory[i]==0)while(bdata[i]!=']')i++;
+            if(memory[ptr]==0)while(bdata[i]!=']')i++;
         }
         if(bdata[i]==']'){
-            if(memory[i]!=0)while(bdata[i]!='[')i--;
+            if(memory[ptr]!=0)while(bdata[i]!='[')i--;
         }
 
         if(bdata[i]=='!'){
