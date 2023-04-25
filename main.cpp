@@ -45,7 +45,7 @@ bool bDisplayCommentTags=true;
 /* bDisplayComments will display all characters after '#', disabling this will render them invisible. */
 bool bDisplayComments=true;
 /* bDisplayLineNum will show the current line.*/
-bool bDisplayLineNum;
+bool bDisplayLineNum=false;
 // -----------
 
 // Allocated size.
@@ -268,9 +268,9 @@ int main(int argc, char** argv){
         int loopchecked = check_loops(bdata);
         if(loopchecked != 0){
             if(loopchecked > 0){
-                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "some loops don\'t have endings (" << loopchecked << " loop(s))\n";
+                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "Unmatched ] (" << loopchecked << " loop(s))\n";
             }else{
-                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "some loops don\'t have beginnings (" << (loopchecked/-1) << " loop(s))\n";
+                std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "Unmatched [" << (loopchecked/-1) << " loop(s))\n";
             }
             return 0;
         }
@@ -301,7 +301,19 @@ int main(int argc, char** argv){
 
         if(bdata[i]=='.')std::cout << (char)memory[ptr]; 
 
-        if(bdata[i]==',')std::cin >> memory[ptr];
+        if(bdata[i]==','){
+            std::string b;
+            std::cin >> b;
+            memory[ptr] = b[0];
+
+            // Control bytes.
+            if(b == "")memory[ptr]=0x00; 
+            if(b == "\\n")memory[ptr]='\n';
+            if(b == "\\0")memory[ptr]=0x00; 
+            if(b == "\\t")memory[ptr]='\t';
+            if(b == "\\r")memory[ptr]='\r';
+            if(b == "\\b")memory[ptr]='\b';
+        }
 
         if(bdata[i]=='['){
             if(memory[i]==0)while(bdata[i]!=']')i++;
