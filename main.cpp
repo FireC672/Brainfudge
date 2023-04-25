@@ -30,6 +30,7 @@ bool bCountInstructions=false;
 bool bDisplayWhereHalt=false;
 bool bDumpGeneralMemory=false;
 bool bCustomMemoryDump=false;
+bool bDumpGeneralMemory_entire=false;
 
 // Custom memory dump things.
 
@@ -94,7 +95,13 @@ int main(int argc, char** argv){
            bDisplayWhereHalt=true;
         if(!strcmp(argv[i],"--memory-dump")){
             bDumpGeneralMemory = true;
+            bDumpGeneralMemory_entire=false;
             offest=0;
+        }
+
+        if(!strcmp(argv[i],"--fullmemory-dump")){
+           bDumpGeneralMemory_entire=true;
+           bDumpGeneralMemory=false;
         }
 
         if(!strcmp(argv[i],"--snapshot-mem")){
@@ -350,6 +357,23 @@ int main(int argc, char** argv){
         }else {
         printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
         for(int i = 0; i < max_reached+offest+1;i++){
+            if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
+            if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+            printf("%.2x ",memory[i]);
+            printf(CLEAR_FLG);
+        }
+        std::cout << "\n+--------------------------------------------+\n";
+        printf("\nLast pointer location: %i\n",ptr);
+      }
+
+      if(bDumpGeneralMemory_entire){
+        std::cout << "\n\n\n+--------------------------------------------+\n";
+        std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
+        if(max_reached == 0){
+           printf("\t General Memory dump is empty.\n");
+        }else {
+        printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+        for(int i = 0; i < memorysize;i++){
             if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
             if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
             printf("%.2x ",memory[i]);
