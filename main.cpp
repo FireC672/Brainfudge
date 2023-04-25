@@ -351,7 +351,7 @@ int main(int argc, char** argv){
         printf("%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
         for(int i = 0; i < max_reached+offest+1;i++){
             if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
-            if(i == ptr)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+            if(i == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
             printf("%.2x ",memory[i]);
             printf(CLEAR_FLG);
         }
