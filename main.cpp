@@ -338,20 +338,20 @@ int main(int argc, char** argv){
     }
     
     if(bDumpGeneralMemory){
-        std::cout << "\n+--------------------------------+\n";
-        std::cout << BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
+        std::cout << "\n+--------------------------------------------+\n";
+        std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
         if(max_reached == 0){
            printf("\t General Memory dump is empty.\n");
         }else {
-        printf("%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-        for(int i = 0; i < max_reached+offest;i++){
-            if(i%10 == 0 && i!=0)printf("\n%s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
+        printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+        for(int i = 0; i < max_reached+1;i++){
+            if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
             if(i+1 == ptr)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
             printf("%.2x ",memory[i]);
             printf(CLEAR_FLG);
         }
       }
-        printf("\n+------------------------------+\n");
+        std::cout << "\n+--------------------------------------------+\n";
 
         putchar('\n\n');
         printf("%sSnapshots (%lu): %s\n\n",BOLD_TEXT,snapshots.size(),CLEAR_FLG);
