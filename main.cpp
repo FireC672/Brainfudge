@@ -281,7 +281,6 @@ int main(int argc, char** argv){
     memset(memory,0,memorysize);
     // Set a pointer to the address (relative): 0.
     unsigned int ptr = 0;
-    std::stack<int> loops;
     for(unsigned int i = 0; i < bdata.size(); i++){
         
         /* 
@@ -305,16 +304,10 @@ int main(int argc, char** argv){
         if(bdata[i]==',')std::cin >> memory[ptr];
 
         if(bdata[i]=='['){
-            loops.push(i);
-            if(memory[ptr]==0){
-                while(bdata[i]!=']')i++;
-            }
+            if(memory[i]==0)while(bdata[i]!=']')i++;
         }
         if(bdata[i]==']'){
-            if(memory[ptr] != 0){
-                i = loops.top();
-            }
-            loops.pop();
+            if(memory[i]!=0)while(bdata[i]!='[')i--;
         }
 
         if(bdata[i]=='!'){
@@ -324,13 +317,7 @@ int main(int argc, char** argv){
         }
 
         if(bdata[i] == snapshot_token && bCustomMemoryDump){
-            mem_snapshot* dsMemorySnapshot = new mem_snapshot;
-            dsMemorySnapshot->memory = new byte_t[sizeof(byte_t)*max_reached];
-            // Initializing is key, but setting value is also key.
-            memcpy(dsMemorySnapshot->memory,memory,max_reached);
-            dsMemorySnapshot->memory_len=max_reached; 
-            dsMemorySnapshot->current_loc=ptr; 
-            snapshots.push_back(dsMemorySnapshot);
+            push_snapshot(memory,ptr,max_reached,snapshots);
         }
 
         instructions++;
@@ -363,7 +350,7 @@ int main(int argc, char** argv){
             printf(CLEAR_FLG);
           }
           std::cout << "\n+--------------------------------------------+\n";
-          printf("\nLast pointer location: %i\n",ptr);
+          printf("\nLast pointer location: %i (0x%x)\n",ptr,ptr);
         }
 
         printf("\n\n");
@@ -380,7 +367,7 @@ int main(int argc, char** argv){
                printf("%.2x ",snapshot->memory[i]);
                printf(CLEAR_FLG);
              }   
-             printf("\nLast pointer location: %i\n",snapshot->current_loc);
+             printf("\nLast pointer location: %i (0x%x)\n",snapshot->current_loc,snapshot->current_loc);
             }
             nSnapshotC++;
             printf("\n");
@@ -401,15 +388,12 @@ int main(int argc, char** argv){
             printf(CLEAR_FLG);
         }
         std::cout << "\n+--------------------------------------------+\n";
-        printf("\nLast pointer location: %i\n",ptr);
+        printf("\nLast pointer location: %i (0x%x)\n",ptr,ptr);
        }
       }
     
     // free up the snapshots. 
-    for(auto& snapshot_ptr : snapshots){
-        delete snapshot_ptr->memory;
-        delete snapshot_ptr;
-    }
+    clear_snapshotholder(snapshots);
     std::cout << '\n';
 
     return 0;
