@@ -355,35 +355,18 @@ int main(int argc, char** argv){
         if(max_reached == 0){
            printf("\t General Memory dump is empty.\n");
         }else {
-        printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-        for(int i = 0; i < max_reached+offest+1;i++){
+          printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+          for(int i = 0; i < max_reached+offest+1;i++){
             if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
             if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
             printf("%.2x ",memory[i]);
             printf(CLEAR_FLG);
+          }
+          std::cout << "\n+--------------------------------------------+\n";
+          printf("\nLast pointer location: %i\n",ptr);
         }
-        std::cout << "\n+--------------------------------------------+\n";
-        printf("\nLast pointer location: %i\n",ptr);
-      }
 
-      if(bDumpGeneralMemory_entire){
-        std::cout << "\n\n\n+--------------------------------------------+\n";
-        std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
-        if(max_reached == 0){
-           printf("\t General Memory dump is empty.\n");
-        }else {
-        printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-        for(int i = 0; i < memorysize;i++){
-            if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
-            if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
-            printf("%.2x ",memory[i]);
-            printf(CLEAR_FLG);
-        }
-        std::cout << "\n+--------------------------------------------+\n";
-        printf("\nLast pointer location: %i\n",ptr);
-      }
-
-        putchar('\n\n');
+        printf("\n\n");
         printf("%sSnapshots (%lu): %s\n\n",BOLD_TEXT,snapshots.size(),CLEAR_FLG);
         int nSnapshotC = 1;
         for(auto& snapshot : snapshots){
@@ -403,6 +386,24 @@ int main(int argc, char** argv){
             printf("\n");
         }
     }
+
+    if(bDumpGeneralMemory_entire){
+        std::cout << "\n\n\n+--------------------------------------------+\n";
+        std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
+        if(max_reached == 0){
+           printf("\t General Memory dump is empty.\n");
+        }else {
+        printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+        for(int i = 0; i < memorysize;i++){
+            if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
+            if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+            printf("%.2x ",memory[i]);
+            printf(CLEAR_FLG);
+        }
+        std::cout << "\n+--------------------------------------------+\n";
+        printf("\nLast pointer location: %i\n",ptr);
+       }
+      }
     
     // free up the snapshots. 
     for(auto& snapshot_ptr : snapshots){
