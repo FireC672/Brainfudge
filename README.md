@@ -48,7 +48,7 @@ just type the name of the program as positional-argument.
 I will probably provide a release, but not for all machines.
 
 
-# Syntax 
+# Brainfuck Syntax & Tokens 
 
 
 <table>
@@ -97,7 +97,33 @@ I will probably provide a release, but not for all machines.
      <td>','</td>
      <td>Fetches input from the standard input, and converts it to a byte number.</td>
   </tr>
+</table>
 
+## Additional Tokens
 
+Additional tokens are tokens that are not built-in the brainfuck language, but added
+for other purposes like commenting and breaking.
 
+**These are:**
+
+<table>
+   <tr>
+     <th>Syntax</th>
+     <th>Utility</th>
+   </tr>
+
+   <tr>
+      <td>'!'</td>
+      <td>A breaker or halt, when the interpreter reads it then it halts, can be disabled with <strong>-ignore-halts</strong></td>
+   </tr>
+
+   <tr>
+      <td>'#'</td>
+      <td>A comment hash, ignores every instruction from '#' to a new line. <strong>-ignore-comments</strong></td>
+   </tr>
+
+   <tr>
+      <td>'%'</td>
+      <td>Snapshot token (needs to be enabled by passing option <strong>--snapshot-mem</strong> after the option <strong>--memory-dump or --fullmemory-dump</strong>), it takes the current state of memory and saves it, at the end of a program or a force d halt, then it prints out results. (can be modifiable with option <strong>--config-snapshot-token</strong> and it should not be conflicted with a builtin syntax.)</td>
+   </tr>
 </table>
