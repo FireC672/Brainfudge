@@ -24,3 +24,26 @@ std::string* inithelp(){
     "--fullmemory-dump         Displays the entire state of the memory at the end of the program from 0 to the last cell.\n";
     return hlp;
 }
+
+std::string* initsynhelp(const int& level){
+    std::string* o = new std::string("");
+    if(level == 0){
+        // basic syntax.
+        (*o) = 
+        "Introducing brainfuck syntax:\n"
+        "+-----------+-------------------------------------------------------------------------------------------+\n"
+        "|  Syntax   |  Utility                                                                                  |\n"
+        "+-----------+-------------------------------------------------------------------------------------------+\n"
+        "|  \'>\'    | Moves 1 cell to the right                                                                 |\n"
+        "|  \'<\'    | Moves 1 cell to the left                                                                  |\n"
+        "|  \'+\'    | Increments by one the current cell                                                        |\n"
+        "|  \'-\'    | Decrements by one the current cell                                                        |\n"
+        "|  \'[\'    | Starts a loop, if the cell is zero, skip to the next \']\'                                |\n"
+        "|  \']\'    | Ends a loop, if the cell isn\'t zero, return to the previous \']\'                        |\n"
+        "|  \'.\'    | Outputs the value of the cell as ASCII to the standard output                             |\n"
+        "|  \',\'    | Receives input as ASCII and sets the cell as the equivalent value (eg: \'A\' = 65)        |\n"
+        "+-----------+-------------------------------------------------------------------------------------------+"
+        ;
+    }
+    return o;
+}
