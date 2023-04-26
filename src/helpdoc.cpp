@@ -21,7 +21,9 @@ std::string* inithelp(){
     "\n--memory-dump:            Shows the current state of memory at the end of the program.\n"
     "  ~~~~~~~~~~~^ -> \033[33m\033[1mNOTE: The Yellow-Colored byte is the current location of the pointer.\033[0m\n"
     "--snapshot-mem <$1>       Saves snapshot of memory if the interpreter encounters the character $1.\n"
-    "--fullmemory-dump         Displays the entire state of the memory at the end of the program from 0 to the last cell.\n";
+    "--fullmemory-dump         Displays the entire state of the memory at the end of the program from 0 to the last cell.\n"
+    "--syn-help                Displays the syntax help.\n"
+    "--sp-syn-help             Displays the higher syntax help level.\n";
     return hlp;
 }
 
