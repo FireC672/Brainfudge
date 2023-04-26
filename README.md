@@ -123,7 +123,7 @@ for other purposes like commenting and breaking.
    </tr>
 
    <tr>
-      <td>'%'</td>
+      <td>'%' or customized one</td>
       <td>Snapshot token (needs to be enabled by passing option <strong>--snapshot-mem</strong> after the option <strong>--memory-dump or --fullmemory-dump</strong>), it takes the current state of memory and saves it, at the end of a program or a forced halt, then it prints out results. (can be modifiable with option <strong>--config-snapshot-token</strong> and it should not be conflicted with a builtin syntax.)</td>
    </tr>
 </table>
