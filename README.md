@@ -1,5 +1,5 @@
 # Brainfudge
-Brainfudge is a brainfuck interpreter written in C++.
+Brainfudge is a powerful brainfuck interpreter written in C++.
 
 ***Note: if you have a better name feel free to suggest***
 
@@ -11,6 +11,11 @@ But these interpreters are useless when we don't have Internet access, but this 
 the language only contains 8 valid characters **[ ] > < + - . ,** other characters 
 will be ignore as comments. I added new characters, more like control-characters, 
 like halts & comments & snapshot tokens.
+
+
+# Speical Features
+
+Brainfudge has a complete syntax highlighter, the syntax highlighter reads a file and outputs the colored tokens, with highlight to error or other stuff.
 
 for more information about **Brainfuck** go to <a href="https://esolangs.org/wiki/Brainfuck">Esolangs brainfuck</a>
 
@@ -24,6 +29,8 @@ But when trying to find the best interpreter, I encountered many. Like:
 # Usage 
 Brainfudge is a simple interpreter to understand.
 just put the file to interpreter next to the software name. 
+
+I may add ways to hook the interpreter to GUI apps.
 
 for additional help, type **./bfudge -h**
 
