@@ -106,6 +106,13 @@ int main(int argc, char** argv){
             return 0;
         }
 
+           if(!strcmp(argv[i],"--sp-syn-help")){
+            std::string* s = initsynhelp(1);
+            std::cout << *s;
+            delete s;
+            return 0;
+        }
+
         if(!strcmp(argv[i],"--fullmemory-dump")){
            bDumpGeneralMemory_entire=true;
            bDumpGeneralMemory=false;
