@@ -47,8 +47,18 @@ just type the name of the program as positional-argument.
 
 I will probably provide a release, but not for all machines.
 
+
 # Syntax 
 
+
 <table>
-   <tr><th>Hello</th></tr>
+   <tr>
+      <th>Syntax</th>
+      <th>Utility</th>
+   </tr>
+
+   <tr>
+      <td>+</td>
+      <td>Hello</td>
+   </tr>
 </table>
