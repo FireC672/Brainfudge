@@ -46,3 +46,9 @@ I provided a shell-script that does the work for you.
 just type the name of the program as positional-argument.
 
 I will probably provide a release, but not for all machines.
+
+# Syntax 
+
+<table>
+   <tr><th>Hello</th></tr>
+</table>
