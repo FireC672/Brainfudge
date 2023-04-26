@@ -51,10 +51,13 @@ std::string* initsynhelp(const int& level){
     if(level == 1){
         (*o) = 
         "Advanced Brainfuck syntax:\n"
-        "+----------+---------------------------------------------------------------------+\n"
-        "|  Syntax  |  Utility                                                            |\n"
-        "+----------+---------------------------------------------------------------------+\n"
-        "|  \'#\'    | Ignores everything that comes after it until it reaches a new line |\n"
+        "+----------+------------------------------------------------------------------------------------------+\n"
+        "|  Syntax  |  Utility                                                                                 |\n"
+        "+----------+------------------------------------------------------------------------------------------+\n"
+        "|   \'#\'    | Ignores everything that comes after it until it reaches a new line                       |\n"
+        "|   \'%\'    | Takes a memory snapshot each time it is executed                                         |\n"
+        "|   \'!\'    | When reached, it breaks the program, forces a quit even if the program did not finish    |\n"
+        "+----------+------------------------------------------------------------------------------------------+\n"
         ;
     }
     return o;
