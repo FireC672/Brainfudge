@@ -58,7 +58,46 @@ I will probably provide a release, but not for all machines.
    </tr>
 
    <tr>
-      <td>+</td>
-      <td>Hello</td>
+      <td>'>'</td>
+      <td>Moves the pointer 1 cell to the right</td>
    </tr>
+
+   <tr>
+      <td>'<'</td>
+      <td>Moves the pointer 1 cell to the left</td>
+   </tr>
+
+   <tr>
+      <td>'+'</td>
+      <td>Increments the current location by one (if the cell is 255 before incremenetation then it overflows and carries to 0)</td>
+   </tr>
+
+  <tr>
+      <td>'-'</td>
+      <td>Decrements the current location by one (if the cell is 0 before decrementation then it overflows and carries to 255)</td>
+  </tr>
+
+  <tr>
+      <td>'['</td>
+      <td>A loop starter, similar to 'while(memory[ptr]!=0){', the cell value is zero, then skip to then next ']' without executing instructions.</td>
+  </tr>
+
+  <tr>
+      <td>']'</td>
+      <td>A loop ender, similar to '}', if the current cell is not zero, then go back to the nearest '['</td>
+  </tr>
+
+  <tr>
+     <td>'.'</td>
+     <td>Converts the cell value to ASCII Character and sends it to the standard output.</td>
+  </tr>
+
+
+  <tr>
+     <td>','</td>
+     <td>Fetches input from the standard input, and converts it to a byte number.</td>
+  </tr>
+
+
+
 </table>
