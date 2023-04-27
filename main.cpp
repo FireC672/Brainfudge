@@ -32,6 +32,9 @@ bool bDumpGeneralMemory=false;
 bool bCustomMemoryDump=false;
 bool bDumpGeneralMemory_entire=false;
 
+// If more than one character is inputed, then only fetch characters from a list instead of asking again.
+bool bKeepInput=false;
+
 // Custom memory dump things.
 
 /* This hold snapshots of memory. */
@@ -46,6 +49,7 @@ bool bDisplayCommentTags=true;
 bool bDisplayComments=true;
 /* bDisplayLineNum will show the current line.*/
 bool bDisplayLineNum=false;
+
 // -----------
 
 // Allocated size.
@@ -98,6 +102,9 @@ int main(int argc, char** argv){
             bDumpGeneralMemory_entire=false;
             offest=0;
         }
+
+        if(!strcmp(argv[i],"--keep-input"))
+           bKeepInput=true;
 
         if(!strcmp(argv[i],"--syn-help")){
             std::string* s = initsynhelp(0);
