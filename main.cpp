@@ -14,6 +14,7 @@
 #include "prototypes/util.hpp"
 #include "prototypes/helpdoc.hpp"
 #include "prototypes/mem.hpp"
+#include <queue>
 
 // Halt break: a flag that when set, force-exits the program,
 // with return code.
@@ -34,6 +35,7 @@ bool bDumpGeneralMemory_entire=false;
 
 // If more than one character is inputed, then only fetch characters from a list instead of asking again.
 bool bKeepInput=false;
+std::queue<char> keptInput;
 
 // Custom memory dump things.
 
@@ -323,17 +325,56 @@ int main(int argc, char** argv){
         if(bdata[i]=='.')std::cout << (char)memory[ptr]; 
 
         if(bdata[i]==','){
-            std::string b;
-            std::cin >> b;
-            memory[ptr] = b[0];
+            // std::string b;
+            // std::cin >> b;
+            // memory[ptr] = b[0];
 
-            // Control bytes.
-            if(b == "")memory[ptr]=0x00; 
-            if(b == "\\n")memory[ptr]='\n';
-            if(b == "\\0")memory[ptr]=0x00; 
-            if(b == "\\t")memory[ptr]='\t';
-            if(b == "\\r")memory[ptr]='\r';
-            if(b == "\\b")memory[ptr]='\b';
+            // // Control bytes.
+            // if(b == "")memory[ptr]=0x00; 
+            // if(b == "\\n")memory[ptr]='\n';
+            // if(b == "\\0")memory[ptr]=0x00; 
+            // if(b == "\\t")memory[ptr]='\t';
+            // if(b == "\\r")memory[ptr]='\r';
+            // if(b == "\\b")memory[ptr]='\b';
+            if(keptInput.size() > 0){
+                char t = keptInput.front();
+                memory[ptr] = t;
+                keptInput.pop();
+            }else{
+                std::string b; 
+                std::cin >> b;
+                
+                if(b == "\\n")memory[ptr]='\n';
+                if(b == "\\0")memory[ptr]=0x00; 
+                if(b == "\\t")memory[ptr]='\t';
+                if(b == "\\r")memory[ptr]='\r';
+                if(b == "\\b")memory[ptr]='\b';
+
+                if(b.size()-1 > 0 && bKeepInput){
+                   int i = 1;
+
+                   if(b == "\\n"){
+                     keptInput.push('\n');
+                     i+=3;
+                   }
+                   if(b == "\\0"){
+                    keptInput.push('\0');
+                     i+=3;
+                   }
+                   if(b == "\\t"){
+                    keptInput.push('\t');
+                     i+=3;
+                   }
+                   if(b == "\\r"){
+                    keptInput.push('\r');
+                     i+=3;
+                   }
+                   if(b == "\\b"){
+                    keptInput.push('\b');
+                    i+=3;
+                   }
+                }
+            }
         }
 
         if(bdata[i]=='['){
@@ -378,38 +419,41 @@ int main(int argc, char** argv){
         std::cout << "\n\n\n+--------------------------------------------+\n";
         std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
         if(max_reached == 0){
-           printf("\t General Memory dump is empty.\n");
+            printf("\t General Memory dump is empty.\n");
         }else {
-          printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-          for(int i = 0; i < max_reached+offest+1;i++){
-            if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
-            if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
-            printf("%.2x ",memory[i]);
-            printf(CLEAR_FLG);
-          }
-          std::cout << "\n+--------------------------------------------+\n";
-          printf("\nLast pointer location: %i (0x%x)\n",ptr,ptr);
+            printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+            for(int i = 0; i < max_reached+offest+1;i++){
+              if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
+              if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+              printf("%.2x ",memory[i]);
+              printf(CLEAR_FLG);
+            }
+            std::cout << "\n+--------------------------------------------+\n";
+            printf("\nLast pointer location: %i (0x%x)\n",ptr,ptr);
         }
 
         printf("\n\n");
         printf("%sSnapshots (%lu): %s\n",BOLD_TEXT,snapshots.size(),CLEAR_FLG);
+        
         int nSnapshotC = 1;
+
         for(auto& snapshot : snapshots){  
             std::cout << "\n\n+-----------------------------------------+\n";
             printf("| %sSnapshot_%i: %s",BOLD_TEXT,nSnapshotC,CLEAR_FLG);
             if(snapshot->memory_len == 0){
                 printf("\n\tSnapshot empty.\n");
             }else {
-             printf("\n| %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-             for(int i = 0; i < snapshot->memory_len+1 ;i++){
-               if(i%10 == 0 && i!=0)printf("|\n| %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
-               if(i+1 == snapshot->current_loc+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
-               printf("%.2x ",snapshot->memory[i]);
-               printf(CLEAR_FLG);
-             }   
-             std::cout << "\n+-----------------------------------------+\n";
-             printf("\nLast pointer location: %i (0x%x)\n",snapshot->current_loc,snapshot->current_loc);
+                printf("\n| %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+                for(int i = 0; i < snapshot->memory_len+1 ;i++){
+                  if(i%10 == 0 && i!=0)printf("|\n| %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
+                  if(i+1 == snapshot->current_loc+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+                  printf("%.2x ",snapshot->memory[i]);
+                  printf(CLEAR_FLG);
+                }   
+                std::cout << "\n+-----------------------------------------+\n";
+                printf("\nLast pointer location: %i (0x%x)\n",snapshot->current_loc,snapshot->current_loc);
             }
+
             nSnapshotC++;
             printf("\n");
         }
@@ -418,20 +462,21 @@ int main(int argc, char** argv){
     if(bDumpGeneralMemory_entire){
         std::cout << "\n\n\n+--------------------------------------------+\n";
         std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
+
         if(max_reached == 0){
-           printf("\t General Memory dump is empty.\n");
+            printf("\t General Memory dump is empty.\n");
         }else {
-        printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
-        for(int i = 0; i < memorysize;i++){
-            if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
-            if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
-            printf("%.2x ",memory[i]);
-            printf(CLEAR_FLG);
-        }
-        std::cout << "\n+--------------------------------------------+\n";
-        printf("\nLast pointer location: %i (0x%x)\n",ptr,ptr);
+            printf("|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,0,CLEAR_FLG);
+            for(int i = 0; i < memorysize;i++){
+              if(i%10 == 0 && i!=0)printf("  |\n|  %s%s%.8x: %s",GREEN_CODE,BOLD_TEXT,i,CLEAR_FLG);
+              if(i+1 == ptr+1)printf("%s%s",BOLD_TEXT,YELLOW_CODE);
+              printf("%.2x ",memory[i]);
+              printf(CLEAR_FLG);
+            }
+            std::cout << "\n+--------------------------------------------+\n";
+            printf("\nLast pointer location: %i (0x%x)\n",ptr,ptr);
        }
-      }
+    }
     
     // free up the snapshots. 
     while(!snapshots.empty()){
