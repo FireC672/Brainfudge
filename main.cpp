@@ -336,11 +336,11 @@ int main(int argc, char** argv){
             // if(b == "\\t")memory[ptr]='\t';
             // if(b == "\\r")memory[ptr]='\r';
             // if(b == "\\b")memory[ptr]='\b';
-            if(keptInput.size() > 0){
-                char t = keptInput.front();
-                memory[ptr] = t;
-                keptInput.pop();
-            }else{
+            // if(keptInput.size() > 0){
+            //     char t = keptInput.front();
+            //     memory[ptr] = t;
+            //     keptInput.pop();
+            // }else{
                 std::string b; 
                 std::cin >> b;
                 
@@ -350,31 +350,31 @@ int main(int argc, char** argv){
                 if(b == "\\r")memory[ptr]='\r';
                 if(b == "\\b")memory[ptr]='\b';
 
-                if(b.size()-1 > 0 && bKeepInput){
-                   int i = 1;
+                // if(b.size()-1 > 0 && bKeepInput){
+                //    int i = 1;
 
-                   if(b == "\\n"){
-                     keptInput.push('\n');
-                     i+=3;
-                   }
-                   if(b == "\\0"){
-                    keptInput.push('\0');
-                     i+=3;
-                   }
-                   if(b == "\\t"){
-                    keptInput.push('\t');
-                     i+=3;
-                   }
-                   if(b == "\\r"){
-                    keptInput.push('\r');
-                     i+=3;
-                   }
-                   if(b == "\\b"){
-                    keptInput.push('\b');
-                    i+=3;
-                   }
-                }
-            }
+                //    if(b == "\\n"){
+                //      keptInput.push('\n');
+                //      i+=3;
+                //    }
+                //    if(b == "\\0"){
+                //     keptInput.push('\0');
+                //      i+=3;
+                //    }
+                //    if(b == "\\t"){
+                //     keptInput.push('\t');
+                //      i+=3;
+                //    }
+                //    if(b == "\\r"){
+                //     keptInput.push('\r');
+                //      i+=3;
+                //    }
+                //    if(b == "\\b"){
+                //     keptInput.push('\b');
+                //     i+=3;
+                //    }
+                // }
+            //}
         }
 
         if(bdata[i]=='['){
