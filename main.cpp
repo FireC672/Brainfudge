@@ -325,56 +325,14 @@ int main(int argc, char** argv){
         if(bdata[i]=='.')std::cout << (char)memory[ptr]; 
 
         if(bdata[i]==','){
-            // std::string b;
-            // std::cin >> b;
-            // memory[ptr] = b[0];
-
-            // // Control bytes.
-            // if(b == "")memory[ptr]=0x00; 
-            // if(b == "\\n")memory[ptr]='\n';
-            // if(b == "\\0")memory[ptr]=0x00; 
-            // if(b == "\\t")memory[ptr]='\t';
-            // if(b == "\\r")memory[ptr]='\r';
-            // if(b == "\\b")memory[ptr]='\b';
-            // if(keptInput.size() > 0){
-            //     char t = keptInput.front();
-            //     memory[ptr] = t;
-            //     keptInput.pop();
-            // }else{
-                std::string b; 
-                std::cin >> b;
-                
-                if(b == "\\n")memory[ptr]='\n';
-                if(b == "\\0")memory[ptr]=0x00; 
-                if(b == "\\t")memory[ptr]='\t';
-                if(b == "\\r")memory[ptr]='\r';
-                if(b == "\\b")memory[ptr]='\b';
-
-                // if(b.size()-1 > 0 && bKeepInput){
-                //    int i = 1;
-
-                //    if(b == "\\n"){
-                //      keptInput.push('\n');
-                //      i+=3;
-                //    }
-                //    if(b == "\\0"){
-                //     keptInput.push('\0');
-                //      i+=3;
-                //    }
-                //    if(b == "\\t"){
-                //     keptInput.push('\t');
-                //      i+=3;
-                //    }
-                //    if(b == "\\r"){
-                //     keptInput.push('\r');
-                //      i+=3;
-                //    }
-                //    if(b == "\\b"){
-                //     keptInput.push('\b');
-                //     i+=3;
-                //    }
-                // }
-            //}
+            std::string b; 
+            std::cin >> b;
+            
+            if(b == "\\n")memory[ptr]='\n';
+            if(b == "\\0")memory[ptr]=0x00; 
+            if(b == "\\t")memory[ptr]='\t';
+            if(b == "\\r")memory[ptr]='\r';
+            if(b == "\\b")memory[ptr]='\b';
         }
 
         if(bdata[i]=='['){
