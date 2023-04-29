@@ -33,9 +33,11 @@ bool bDumpGeneralMemory=false;
 bool bCustomMemoryDump=false;
 bool bDumpGeneralMemory_entire=false;
 
-// If more than one character is inputed, then only fetch characters from a list instead of asking again.
-bool bKeepInput=false;
-std::queue<char> keptInput;
+// // If more than one character is inputed, then only fetch characters from a list instead of asking again.
+// bool bKeepInput=false;
+// std::queue<char> keptInput;
+
+std::string inbuff; 
 
 // Custom memory dump things.
 
@@ -72,6 +74,7 @@ int offest=4;
 
 int main(int argc, char** argv){
     // If there are no arguments, then exit.
+    inbuff.clear();
     if(argc == 1){
         std::cerr << "\033[31m\033[1merror: \033[0mNot enough arguments.\n";
         return 1;
@@ -105,8 +108,8 @@ int main(int argc, char** argv){
             offest=0;
         }
 
-        if(!strcmp(argv[i],"--keep-input"))
-           bKeepInput=true;
+        // if(!strcmp(argv[i],"--keep-input"))
+        //    bKeepInput=true;
 
         if(!strcmp(argv[i],"--syn-help")){
             std::string* s = initsynhelp(0);
@@ -314,7 +317,6 @@ int main(int argc, char** argv){
 
         if(bdata[i]=='<' && ptr > 0)ptr--; 
 
-        
         if(ptr > max_reached)
            max_reached = ptr;
         
@@ -325,14 +327,21 @@ int main(int argc, char** argv){
         if(bdata[i]=='.')std::cout << (char)memory[ptr]; 
 
         if(bdata[i]==','){
-            std::string b; 
-            std::cin >> b;
+            if(inbuff.size() > 0){
+               std::string b = remove_slash(inbuff);
+               char c = *b.end();
+               inbuff.pop_back();
+               memory[ptr]=c;
+               continue;
+            }
+
+            std::cin >> inbuff;
             
-            if(b == "\\n")memory[ptr]='\n';
-            if(b == "\\0")memory[ptr]=0x00; 
-            if(b == "\\t")memory[ptr]='\t';
-            if(b == "\\r")memory[ptr]='\r';
-            if(b == "\\b")memory[ptr]='\b';
+            if(inbuff == "\\n")memory[ptr]='\n';
+            if(inbuff == "\\0")memory[ptr]=0x00; 
+            if(inbuff == "\\t")memory[ptr]='\t';
+            if(inbuff == "\\r")memory[ptr]='\r';
+            if(inbuff == "\\b")memory[ptr]='\b';
         }
 
         if(bdata[i]=='['){
