@@ -5,6 +5,12 @@
    Public License.
 */
 
+/*
+ *  TODO: Do some refactoring, create specials functions for each action.
+ *  TODO: Delete unused files or prototypes, probably rename some directories.
+ *  TODO: Release a ELF executable and a Windows-Supported executable (i think i need docker.) 
+ */
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -14,7 +20,6 @@
 #include "prototypes/util.hpp"
 #include "prototypes/helpdoc.hpp"
 #include "prototypes/mem.hpp"
-#include <queue>
 
 // Halt break: a flag that when set, force-exits the program,
 // with return code.
@@ -34,11 +39,7 @@ bool bCustomMemoryDump=false;
 bool bDumpGeneralMemory_entire=false;
 
 // // If more than one character is inputed, then only fetch characters from a list instead of asking again.
-// bool bKeepInput=false;
-// std::queue<char> keptInput;
-
-std::string inbuff; 
-
+//
 // Custom memory dump things.
 
 /* This hold snapshots of memory. */
@@ -108,9 +109,6 @@ int main(int argc, char** argv){
             offest=0;
         }
 
-        // if(!strcmp(argv[i],"--keep-input"))
-        //    bKeepInput=true;
-
         if(!strcmp(argv[i],"--syn-help")){
             std::string* s = initsynhelp(0);
             std::cout << *s;
@@ -130,28 +128,27 @@ int main(int argc, char** argv){
            bDumpGeneralMemory=false;
         }
 
-        if(!strcmp(argv[i],"--snapshot-mem")){
-            snapshot_token = '%';
-            // if(i+1 > argc){
-            //     std::cerr << RED_CODE << BOLD_TEXT 
-            //               << "error: " << CLEAR_FLG 
-            //               << "option --snapshot-mem need a second argument.\n";
-            //     return 4;
-            // }
+	if(!strcmp(argv[i],"--snapshot-tok"){
+	   // NOTE: '--snapshot-tok' must come after '--snapshot-mem'
+	   // because else will cause a segfault.
+			
+	   std::cout << "---- MODIFY SNAPSHOT TOKEN ----\n"; 
+           char nSnaptok; 
+           std::cin >> nSnaptok;
+           
+	   // If token is built-in, then assert.
+           if(isBuiltin(nSnaptok)){
+	      std::cout << RED_CODE << BOLD_TEXT
+	                << "fatal error: " << CLEAR_FLG << 
+			<< "Cannot assign a built-in token as snapshot token.\n";
+	      return -4;
+	   }
+	   // Assign it.
+           snapshot_token = nSnaptok;	   
+	}
 
-            // Check out for conflicts. 
-            if(isBuiltinToken(snapshot_token)){
-                // Then conflict. 
-                std::cerr << RED_CODE << BOLD_TEXT 
-                          << "error: " << CLEAR_FLG 
-                          << "Snapshot token " << snapshot_token << " is ambigious, syntax-conflict.\n";
-                return -4;
-            }
-
+        if(!strcmp(argv[i],"--snapshot-mem"))
             bCustomMemoryDump=true;
-
-            i+=2;
-        }
         
         if(!strcmp(argv[i],"-license") || !strcmp(argv[i],"-l")){
            std::cout << "Brainfudge Copyright (C) 2023 FireC672\n";
@@ -328,7 +325,8 @@ int main(int argc, char** argv){
 
         if(bdata[i]==','){
             if(inbuff.size() > 0){
-               std::string b = remove_slash(inbuff);
+               std::string _b = remove_slash(inbuff);
+               std::string b = revstr(_b);
                char c = *b.end();
                inbuff.pop_back();
                memory[ptr]=c;
@@ -336,17 +334,21 @@ int main(int argc, char** argv){
             }
 
             std::cin >> inbuff;
+
+            memory[ptr]=inbuff[0];
             
             if(inbuff == "\\n")memory[ptr]='\n';
             if(inbuff == "\\0")memory[ptr]=0x00; 
             if(inbuff == "\\t")memory[ptr]='\t';
             if(inbuff == "\\r")memory[ptr]='\r';
             if(inbuff == "\\b")memory[ptr]='\b';
+            
         }
 
         if(bdata[i]=='['){
             if(memory[ptr]==0)while(bdata[i]!=']')i++;
         }
+
         if(bdata[i]==']'){
             if(memory[ptr]!=0)while(bdata[i]!='[')i--;
         }

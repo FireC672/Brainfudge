@@ -26,4 +26,5 @@ uint32_t str_uint(const std::string& str);
 
 std::string remove_slash(std::string& v);
 
+std::string revstr(std::string& s);
 #endif

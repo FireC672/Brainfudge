@@ -55,3 +55,13 @@ std::string remove_slash(std::string& v){
     }
     return b;
 }
+
+std::string revstr(std::string& s){
+    std::string ou = s;
+    int j = ou.size()-1;
+    for(int i = 0; i < s.size(); i++){
+        ou[j] = s[i];
+        j--;
+    }
+    return ou;
+}
