@@ -57,6 +57,8 @@ bool bDisplayLineNum=false;
 
 // -----------
 
+std::string inbuff;
+
 // Allocated size.
 // For incoming option '-m' 
 uint16_t memorysize = 1000;
@@ -128,23 +130,23 @@ int main(int argc, char** argv){
            bDumpGeneralMemory=false;
         }
 
-	if(!strcmp(argv[i],"--snapshot-tok"){
+	if(!strcmp(argv[i],"--snapshot-tok")){
 	   // NOTE: '--snapshot-tok' must come after '--snapshot-mem'
 	   // because else will cause a segfault.
 			
-	   std::cout << "---- MODIFY SNAPSHOT TOKEN ----\n"; 
-           char nSnaptok; 
-           std::cin >> nSnaptok;
+	    std::cout << "---- MODIFY SNAPSHOT TOKEN ----\n"; 
+        char nSnaptok; 
+        std::cin >> nSnaptok;
            
-	   // If token is built-in, then assert.
-           if(isBuiltin(nSnaptok)){
+	    // If token is built-in, then assert.
+        if(isBuiltinToken(nSnaptok)){
 	      std::cout << RED_CODE << BOLD_TEXT
-	                << "fatal error: " << CLEAR_FLG << 
-			<< "Cannot assign a built-in token as snapshot token.\n";
+	                << "fatal error: " << CLEAR_FLG  
+                    << "Cannot assign a built-in token as snapshot token.\n";
 	      return -4;
-	   }
-	   // Assign it.
-           snapshot_token = nSnaptok;	   
+	    }
+	    // Assign it.
+        snapshot_token = nSnaptok;	   
 	}
 
         if(!strcmp(argv[i],"--snapshot-mem"))
