@@ -9,7 +9,7 @@
  *  TODO: Do some refactoring, create specials functions for each action.
  *  TODO: Delete unused files or prototypes, probably rename some directories.
  *  TODO: Release a ELF executable and a Windows-Supported executable (i think i need docker.) 
- */
+*/
 
 #include <iostream>
 #include <fstream>

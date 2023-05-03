@@ -13,7 +13,6 @@
 #define BOLD_TEXT "\033[1m"
 #define CLEAR_FLG "\033[0m"
 
-
 #include <string>
 typedef unsigned char byte_t;
 // This is reserved for my own functions.
@@ -27,4 +26,8 @@ uint32_t str_uint(const std::string& str);
 std::string remove_slash(std::string& v);
 
 std::string revstr(std::string& s);
+
+// _bassert => Brainfuck assert.
+void _bassert(bool e, int error_lvl, const std::string& msg);
+
 #endif
