@@ -135,6 +135,7 @@ int main(int argc, char** argv){
 	   // because else will cause a segfault.
 			
 	    std::cout << "---- MODIFY SNAPSHOT TOKEN ----\n"; 
+        std::cout << "Assign a new token (Must not be built-in. read \'--sp-syn-help\' or \'--syn-help\' for more info):\n";
         char nSnaptok; 
         std::cin >> nSnaptok;
            
@@ -147,6 +148,7 @@ int main(int argc, char** argv){
 	    }
 	    // Assign it.
         snapshot_token = nSnaptok;	   
+        std::cout << "-------------------------------\n"; 
 	}
 
         if(!strcmp(argv[i],"--snapshot-mem"))
