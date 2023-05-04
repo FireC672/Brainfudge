@@ -68,26 +68,35 @@ std::string revstr(std::string& s){
 }
 
 void __bassert__(bool e, int error_lvl, const std::string& msg){
-    if(!(e)){
-        if(error_lvl == WARNING_LEVEL)/* Warning */{
+
+    if(e)return;
+
+    switch (error_lvl)
+    {
+        case 0:
             std::cerr << YELLOW_CODE << BOLD_TEXT
-                      << "warning: " << CLEAR_FLG << msg;       
-        }
-
-        if(error_lvl == ERROR_LEVEL)/* Error */{
+                      << "warning: " << CLEAR_FLG;      
+            break;
+        case 1:
             std::cerr << RED_CODE << BOLD_TEXT
-                      << "error: " << CLEAR_FLG << msg;       
-        }
-
-        if(error_lvl == FATAL_ERROR_LEVEL)/* Fatal Error */{
+                      << "error: " << CLEAR_FLG;       
+            break;
+        case 2:
             std::cerr << RED_CODE << BOLD_TEXT
-                      << "fatal error: " << CLEAR_FLG << msg;       
-        }
-
-        if(error_lvl == RUNTIME_ERROR_LEVEL) /* Runtime error */ {
+                      << "fatal error: " << CLEAR_FLG;   
+            break;    
+        case 3:
             std::cerr << RED_CODE << BOLD_TEXT 
-                      << "runtime error: "<< CLEAR_FLG << msg;
-        }
-        abort();
+                      << "runtime error: "<< CLEAR_FLG;
+            break;
+        default:
+            std::cerr << YELLOW_CODE << BOLD_TEXT 
+                      << "undefined exception: " << CLEAR_FLG;
+            break;
+             
     }
+
+    std::cerr << msg;
+    abort();
+    
 }
