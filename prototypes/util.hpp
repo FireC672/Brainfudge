@@ -28,6 +28,6 @@ std::string remove_slash(std::string& v);
 std::string revstr(std::string& s);
 
 // _bassert => Brainfuck assert.
-void _bassert(bool e, int error_lvl, const std::string& msg);
+void __bassert__(bool e, int error_lvl, const std::string& msg);
 
 #endif

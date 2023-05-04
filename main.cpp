@@ -76,12 +76,11 @@ uint32_t max_reached=1;
 int offest=4;
 
 int main(int argc, char** argv){
-    // If there are no arguments, then exit.
     inbuff.clear();
-    if(argc == 1){
-        std::cerr << "\033[31m\033[1merror: \033[0mNot enough arguments.\n";
-        return 1;
-    }
+   
+    // Assert if there not enough arguments with error level 1. 
+    __bassert__(argc >= 2,1,"Not enough arguments.\n");
+
     // Arguments parsing.
     for(int i = 1; i < argc; i++){
         if(!strcmp(argv[i],"-help") || !strcmp(argv[i],"-h")){
@@ -136,18 +135,16 @@ int main(int argc, char** argv){
 			
 	    std::cout << "---- MODIFY SNAPSHOT TOKEN ----\n"; 
         std::cout << "Assign a new token (Must not be built-in. read \'--sp-syn-help\' or \'--syn-help\' for more info):\n";
+
         char nSnaptok; 
+
         std::cin >> nSnaptok;
-           
-	    // If token is built-in, then assert.
-        if(isBuiltinToken(nSnaptok)){
-	      std::cout << RED_CODE << BOLD_TEXT
-	                << "fatal error: " << CLEAR_FLG  
-                    << "Cannot assign a built-in token as snapshot token.\n";
-	      return -4;
-	    }
+  
+        __bassert__(!isBuiltinToken(nSnaptok),2,"Cannot assign a built-in token as snapshot token.\n");
+
 	    // Assign it.
         snapshot_token = nSnaptok;	   
+
         std::cout << "-------------------------------\n"; 
 	}
 
@@ -189,10 +186,8 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--syntax-highlight")){
             std::ifstream infile; 
             infile.open(argv[1],std::ios_base::in);
-            if(!infile){
-               std::cerr << RED_CODE << BOLD_TEXT << "error: " << CLEAR_FLG << "Provided source file is nonexistant.\n";
-               return 2;
-            }
+            
+            __bassert__(!infile.bad(),1,"Provided source file is nonexistant.\n");
             
             std::string* data = new std::string("");
             data->clear();
@@ -261,10 +256,7 @@ int main(int argc, char** argv){
     std::ifstream infile; 
     infile.open(argv[1],std::ios_base::in);
     
-    if(!infile){
-       std::cerr << RED_CODE << BOLD_TEXT << "error: " << CLEAR_FLG << "Provided source file is nonexistant.\n";
-       return 2;
-    }
+    __bassert__(!infile.bad(),1,"Provided source file is nonexistant.\n");
 
     // The reason we allocate a pointer, is to prevent stack-space limitation issues.
     std::string* filedata = new std::string("");
@@ -273,13 +265,7 @@ int main(int argc, char** argv){
     delete filedata;
     infile.close();
 
-    // When there are no instructions.
-    // Don't bother allocating space for the program. 
-    // Just exit (no error).
-    if(bdata.size() == 0){
-        std::cout << YELLOW_CODE << BOLD_TEXT <<"warning: " << CLEAR_FLG <<"the file doesn\'t contain any valid instructions.\nor instructions might be commented.\n";
-        return 0;
-    }
+    __bassert__(bdata.size() > 0, 0, "the file doesn\'t contain any valid instructions.\nor instructions might be commented.\n");
     
     /* We put this in this scope, so that we free up quickly the stack. */
     {
@@ -292,6 +278,7 @@ int main(int argc, char** argv){
            then we should receive a zero. 
            else, it's an error. 
         */
+       
         int loopchecked = check_loops(bdata);
         if(loopchecked != 0){
             if(loopchecked > 0){

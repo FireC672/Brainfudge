@@ -2,7 +2,6 @@
 #include <string>
 #include <cmath>
 #include <cctype>
-#include <cassert>
 #include <iostream>
 #include <vector>
 
@@ -68,22 +67,22 @@ std::string revstr(std::string& s){
     return ou;
 }
 
-void _bassert(bool e, int error_lvl, const std::string& msg){
+void __bassert__(bool e, int error_lvl, const std::string& msg){
     if(!(e)){
-        if(error_lvl == 1)/* Warning */{
-            std::cout << YELLOW_CODE << BOLD_TEXT
+        if(error_lvl == 0)/* Warning */{
+            std::cerr << YELLOW_CODE << BOLD_TEXT
                       << "warning: " << CLEAR_FLG << msg;       
         }
 
-        if(error_lvl == 2)/* Error */{
-            std::cout << RED_CODE << BOLD_TEXT
+        if(error_lvl == 1)/* Error */{
+            std::cerr << RED_CODE << BOLD_TEXT
                       << "error: " << CLEAR_FLG << msg;       
         }
 
         if(error_lvl == 2)/* Fatal Error */{
-            std::cout << RED_CODE << BOLD_TEXT
+            std::cerr << RED_CODE << BOLD_TEXT
                       << "fatal error: " << CLEAR_FLG << msg;       
         }
-        assert(false);
+        abort();
     }
 }
