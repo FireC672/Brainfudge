@@ -17,6 +17,7 @@
 #define WARNING_LEVEL 1 
 #define ERROR_LEVEL 2 
 #define FATAL_ERROR_LEVEL 3
+#define RUNTIME_ERROR_LEVEL 4
 
 #include <string>
 typedef unsigned char byte_t;

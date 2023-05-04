@@ -83,6 +83,11 @@ void __bassert__(bool e, int error_lvl, const std::string& msg){
             std::cerr << RED_CODE << BOLD_TEXT
                       << "fatal error: " << CLEAR_FLG << msg;       
         }
+
+        if(error_lvl == RUNTIME_ERROR_LEVEL) /* Runtime error */ {
+            std::cerr << RED_CODE << BOLD_TEXT 
+                      << "runtime error: "<< CLEAR_FLG << msg;
+        }
         abort();
     }
 }

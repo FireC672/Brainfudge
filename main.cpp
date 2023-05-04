@@ -116,8 +116,8 @@ int main(int argc, char** argv){
             __bassert__(iput > 0,FATAL_ERROR_LEVEL,"Can\'t allocate a negative amount.\n");
             memorysize = static_cast<unsigned>(iput);
 
-            std::cout << "---------------------------------";
-            std::cout << "*Successfully set the allocator to " << memorysize << " Bytes.\n*";
+            std::cout << "Successfully set the allocator to " << memorysize << " Bytes.\n";
+            std::cout << "---------------------------------\n";
         }
 
         if(!strcmp(argv[i],"--syn-help")){
@@ -307,14 +307,12 @@ int main(int argc, char** argv){
     // Set a pointer to the address (relative): 0.
     unsigned int ptr = 0;
     for(unsigned int i = 0; i < bdata.size(); i++){
-        
-        /* 
-         Safety feature: if the pointer address is less than the Most-signficant byte,
-         then increment.
-         */
-        if(bdata[i]=='>' && ptr < memorysize-1)ptr++; 
+        // If the pointer overflows, then raise an assertion.
+        __bassert__(!(ptr > memorysize),RUNTIME_ERROR_LEVEL,"Pointer overflowed in a Illegal location.\n");
 
-        if(bdata[i]=='<' && ptr > 0)ptr--; 
+        if(bdata[i]=='>')ptr++; 
+
+        if(bdata[i]=='<')ptr--; 
 
         if(ptr > max_reached)
            max_reached = ptr;
