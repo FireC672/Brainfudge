@@ -1,4 +1,4 @@
-#include "../prototypes/fread.hpp"
+#include "../includes/fread.hpp"
 #include <string>
 #include <vector>
 

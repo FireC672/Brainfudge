@@ -16,10 +16,10 @@
 #include <vector>
 #include <string>
 #include <stack>
-#include "prototypes/fread.hpp"
-#include "prototypes/util.hpp"
-#include "prototypes/helpdoc.hpp"
-#include "prototypes/mem.hpp"
+#include "includes/fread.hpp"
+#include "includes/util.hpp"
+#include "includes/helpdoc.hpp"
+#include "includes/mem.hpp"
 
 // Halt break: a flag that when set, force-exits the program,
 // with return code.

@@ -1,4 +1,4 @@
-#include "../prototypes/helpdoc.hpp"
+#include "../includes/helpdoc.hpp"
 #include <string>
 
 std::string* inithelp(){
