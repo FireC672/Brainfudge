@@ -1,25 +1,19 @@
-/*
-   NOTE: this code is open-source and free from warranty,
-   the project is under the GNU General Public license, 
-   The cloned or fork repo of the project must come with the GNU General
-   Public License.
-*/
+// ---- STANDARD C++ LIBRARY ----
 
-/*
- *  TODO: Do some refactoring, create specials functions for each action.
- *  TODO: Delete unused files or prototypes, probably rename some directories.
- *  TODO: Release a ELF executable and a Windows-Supported executable (i think i need docker.) 
-*/
+#include <iostream>             
+#include <fstream>              
+#include <vector>              
+#include <string>        
 
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <stack>
-#include "includes/fread.hpp"
-#include "includes/util.hpp"
-#include "includes/helpdoc.hpp"
-#include "includes/mem.hpp"
+// ---- CUSTOM COMPONENTS -------
+
+#include "includes/fread.hpp"   
+#include "includes/util.hpp"    
+#include "includes/helpdoc.hpp" 
+#include "includes/mem.hpp"     
+
+// ------------------------------
+
 
 // Halt break: a flag that when set, force-exits the program,
 // with return code.
@@ -57,6 +51,7 @@ bool bDisplayLineNum=false;
 
 // -----------
 
+// Inbuff is a input collector.
 std::string inbuff;
 
 // Allocated size.
@@ -79,7 +74,7 @@ int main(int argc, char** argv){
     inbuff.clear();
    
     // Assert if there not enough arguments with error level 1. 
-    __bassert__(argc >= 2,1,"Not enough arguments.\n");
+    __bassert__(argc >= 2,ERROR_LEVEL,"Not enough arguments.\n");
 
     // Arguments parsing.
     for(int i = 1; i < argc; i++){
@@ -108,6 +103,21 @@ int main(int argc, char** argv){
             bDumpGeneralMemory = true;
             bDumpGeneralMemory_entire=false;
             offest=0;
+        }
+
+        if(!strcmp(argv[i],"-m") || !strcmp(argv[i],"--alloc-mem")){
+            std::cout << "--- CUSTOM MEMORY ALLOCATION ---\n";
+            fflush(stdin);
+            int iput=0;
+
+            std::cout << "Memory size must be a positive integer. (higher value might cause issues).\n";
+            std::cin >> iput;
+
+            __bassert__(iput > 0,FATAL_ERROR_LEVEL,"Can\'t allocate a negative amount.\n");
+            memorysize = static_cast<unsigned>(iput);
+
+            std::cout << "---------------------------------";
+            std::cout << "*Successfully set the allocator to " << memorysize << " Bytes.\n*";
         }
 
         if(!strcmp(argv[i],"--syn-help")){
@@ -140,7 +150,9 @@ int main(int argc, char** argv){
 
         std::cin >> nSnaptok;
   
-        __bassert__(!isBuiltinToken(nSnaptok),2,"Cannot assign a built-in token as snapshot token.\n");
+        __bassert__(!isBuiltinToken(nSnaptok),
+                    FATAL_ERROR_LEVEL,
+                    "Cannot assign a built-in token as snapshot token.\n");
 
 	    // Assign it.
         snapshot_token = nSnaptok;	   
@@ -162,11 +174,10 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"-lc")){
             std::ifstream license; 
             license.open("LICENSE",std::ios_base::in);
-            if(!license){
-                std::cout << "\033[33m\033[1mwarning: \033[0mThe source didn\'t came with any license.\n";
-                std::cout << "Can't display proprer license terms and conditions.\n";
-                return 1;
-            }
+
+            __bassert__(!license.bad(),WARNING_LEVEL, 
+                       "The source didn\'t come with any license file.\nCan\'t display proper license terms.\n");
+        
             std::string currline;
             while(std::getline(license,currline)){
                 currline.push_back('\n');
@@ -187,7 +198,7 @@ int main(int argc, char** argv){
             std::ifstream infile; 
             infile.open(argv[1],std::ios_base::in);
             
-            __bassert__(!infile.bad(),1,"Provided source file is nonexistant.\n");
+            __bassert__(!infile.bad(),ERROR_LEVEL,"Provided source file is nonexistant.\n");
             
             std::string* data = new std::string("");
             data->clear();
@@ -256,7 +267,7 @@ int main(int argc, char** argv){
     std::ifstream infile; 
     infile.open(argv[1],std::ios_base::in);
     
-    __bassert__(!infile.bad(),1,"Provided source file is nonexistant.\n");
+    __bassert__(!infile.bad(),ERROR_LEVEL,"Provided source file is nonexistant.\n");
 
     // The reason we allocate a pointer, is to prevent stack-space limitation issues.
     std::string* filedata = new std::string("");
@@ -265,7 +276,7 @@ int main(int argc, char** argv){
     delete filedata;
     infile.close();
 
-    __bassert__(bdata.size() > 0, 0, "the file doesn\'t contain any valid instructions.\nor instructions might be commented.\n");
+    __bassert__(bdata.size() > 0, WARNING_LEVEL, "the file doesn\'t contain any valid instructions.\nor instructions might be commented.\n");
     
     /* We put this in this scope, so that we free up quickly the stack. */
     {

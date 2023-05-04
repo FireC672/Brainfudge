@@ -69,17 +69,17 @@ std::string revstr(std::string& s){
 
 void __bassert__(bool e, int error_lvl, const std::string& msg){
     if(!(e)){
-        if(error_lvl == 0)/* Warning */{
+        if(error_lvl == WARNING_LEVEL)/* Warning */{
             std::cerr << YELLOW_CODE << BOLD_TEXT
                       << "warning: " << CLEAR_FLG << msg;       
         }
 
-        if(error_lvl == 1)/* Error */{
+        if(error_lvl == ERROR_LEVEL)/* Error */{
             std::cerr << RED_CODE << BOLD_TEXT
                       << "error: " << CLEAR_FLG << msg;       
         }
 
-        if(error_lvl == 2)/* Fatal Error */{
+        if(error_lvl == FATAL_ERROR_LEVEL)/* Fatal Error */{
             std::cerr << RED_CODE << BOLD_TEXT
                       << "fatal error: " << CLEAR_FLG << msg;       
         }
