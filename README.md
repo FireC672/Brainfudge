@@ -124,7 +124,7 @@ for other purposes like commenting and breaking.
 
    <tr>
       <td>'%' or customized one</td>
-      <td>Snapshot token (needs to be enabled by passing option <strong>--snapshot-mem</strong>, it takes the current state of memory and saves it, at the end of a program or a forced halt, it prints out the snapshots. (can be modifiable with option <strong>--config-snapshot-token</strong> and it should not be conflicted with a builtin syntax.)</td>
+      <td>Snapshot token (needs to be enabled by passing option <strong>--snapshot-mem</strong>, it takes the current state of memory and saves it, at the end of a program or a forced halt, it prints out the snapshots. (can be modifiable with option <strong>--snapshot-tokgit </strong> and it should not be conflicted with a builtin syntax.)</td>
    </tr>
 </table>
 

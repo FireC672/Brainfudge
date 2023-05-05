@@ -59,7 +59,7 @@ std::string* initsynhelp(const int& level){
         "|  Syntax  |  Utility                                                                                 |\n"
         "+----------+------------------------------------------------------------------------------------------+\n"
         "|   \'#\'    | Ignores everything that comes after it until it reaches a new line                       |\n"
-        "|   \'%\'    | Takes a memory snapshot each time it is executed                                         |\n"
+        "|   \'%\'    | Takes a memory snapshot each time it is executed                                         | <- Can be modified with option \'--snapshot-tok\'\n"
         "|   \'!\'    | When reached, it breaks the program, forces a quit even if the program did not finish    |\n"
         "+----------+------------------------------------------------------------------------------------------+\n"
         ;
