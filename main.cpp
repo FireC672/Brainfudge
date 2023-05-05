@@ -109,11 +109,26 @@ int main(int argc, char** argv){
 
         if(!strcmp(argv[i],"--seperate-tools"))
            bSeperateTools = true;
+        if(!strcmp(argv[i],"--memory-demand")){
+            std::ifstream infile; 
+            infile.open(argv[1],std::ios_base::in);
+    
+            __bassert__(infile,ERROR_LEVEL,"Provided source file is nonexistant.\n");
+
+            // The reason we allocate a pointer, is to prevent stack-space limitation issues.
+            std::string* filedata = new std::string("");
+            while(!infile.eof())filedata->push_back(infile.get());
+            std::string bdata = extract_syntax(*filedata,bIgnoreComments,bIgnoreHalts,snapshot_token,bCustomMemoryDump);
+            std::cout << "Memory demand in bytes: " << memoryDemand(bdata) << "B\n";
+            delete filedata;
+            infile.close();
+            return 0;
+        }
 
         if(!strcmp(argv[i],"-m") || !strcmp(argv[i],"--alloc-mem")){
             std::cout << "--- CUSTOM MEMORY ALLOCATION ---\n";
             fflush(stdin);
-            int iput=0;
+            unsigned int iput=1000;
 
             std::cout << "Memory size must be a positive integer. (higher value might cause issues).\n";
             std::cin >> iput;
@@ -182,7 +197,7 @@ int main(int argc, char** argv){
             std::ifstream license; 
             license.open("LICENSE",std::ios_base::in);
 
-            __bassert__(!license.bad(),WARNING_LEVEL, 
+            __bassert__(!license,WARNING_LEVEL, 
                        "The source didn\'t come with any license file.\nCan\'t display proper license terms.\n");
         
             std::string currline;
@@ -210,13 +225,22 @@ int main(int argc, char** argv){
             std::string* data = new std::string("");
             data->clear();
             std::string currline; 
+
+            int currentline = 1;
             while(std::getline(infile,currline)){
-                currline.push_back('\n');
-                for(auto& ch : currline)data->push_back(ch);
+                std::string tmpline; 
+                if(bDisplayLineNum){
+                    tmpline += std::to_string(currentline);
+                    tmpline += ' ';
+                    tmpline += currline;
+                }
+                tmpline.push_back('\n');
+                for(auto& ch : tmpline)data->push_back(ch);
+                currentline++;
             }
+
             std::vector<int> loops = invalid_loops(*data); 
             infile.close();
-            int currentline = 1;
             // Syntax highlighting.
             for(int i = 0; i < data->size(); i++){
                 char token = data->at(i);
@@ -258,10 +282,6 @@ int main(int argc, char** argv){
 
                 if(token == '!' && !bIgnoreHalts)std::cout << BOLD_TEXT << RED_CODE;
                 std::cout << token; 
-                if(token == '\n' && bDisplayLineNum){
-                    std::cout << YELLOW_CODE << currentline << ' ';
-                    currentline++;
-                }
                 std::cout << CLEAR_FLG;
             }
 
@@ -315,7 +335,7 @@ int main(int argc, char** argv){
     unsigned int ptr = 0;
     for(unsigned int i = 0; i < bdata.size(); i++){
         // If the pointer overflows, then raise an assertion.
-        __bassert__(!(ptr > memorysize),RUNTIME_ERROR_LEVEL,"Pointer overflowed in a Illegal location.\n");
+        __bassert__(ptr < memorysize,RUNTIME_ERROR_LEVEL,"Pointer overflowed in a Illegal location.\n");
 
         if(bdata[i]=='>')ptr++; 
 

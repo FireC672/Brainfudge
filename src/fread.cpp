@@ -3,7 +3,7 @@
 #include <vector>
 
 std::string extract_syntax(const std::string& src, bool bIgnoreComments, bool bIgnoreHalts, char snapshot_token, bool bSaveSnapshot){
-    std::string extracted; 
+    std::string extracted;
     for(int i = 0; i < src.size(); i++){
         if(src[i] == '#' && !bIgnoreComments){
             while(src[i]!='\n' && i < src.size())i++;
@@ -46,4 +46,15 @@ std::vector<int> invalid_loops(const std::string& src){
 bool isBuiltinToken(const char& c){
     return (c == '>' || c == '<' || c == '+' || c == '-' || c == '[' || c == ']'
            || c == '.' || c == ',' || c == '#' || c == '!');
+}
+unsigned int memoryDemand(const std::string& src){
+    unsigned int maxDemand = 1;
+    unsigned int currentDemand = 0;
+    for(auto& token : src){
+        if(token == '>'){
+           currentDemand++;
+           if(currentDemand > maxDemand)maxDemand = currentDemand;
+        }
+    }
+    return maxDemand;
 }
