@@ -27,7 +27,8 @@ std::string* inithelp(){
     "--snapshot-tok            Will attribute a new snapshot token from the input (NOT A POSITIONAL ARGUMENT).\n"
     "~~~~~~~~~~~~~^ \033[33m\033[1mNOTE: \'--snapshot-tok\' must come after \'--snapshot-mem\'\033[0m\n"
     "-m / --alloc-mem          Will allocate how much requested from user.\n"
-    "--seperate-tools          Will seperate the program output and the interpreter debug tools.\n";
+    "--seperate-tools          Will seperate the program output and the interpreter debug tools.\n"
+    "--memory-demand           Will go through the file and return the number of bytes needed to run the program without it raising an error.\n";
     return hlp;
 }
 
