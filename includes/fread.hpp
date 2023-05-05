@@ -19,7 +19,7 @@ std::vector<int> invalid_loops(const std::string& src);
 // Checks if the character is a brainfuck built-in command 
 bool isBuiltinToken(const char& c);
 
-// will calculate how much the program needs memory.
+// will calculate how much the program needs memory. (Excluding loops)
 unsigned int memoryDemand(const std::string& src);
 
 #endif

@@ -55,6 +55,8 @@ unsigned int memoryDemand(const std::string& src){
            currentDemand++;
            if(currentDemand > maxDemand)maxDemand = currentDemand;
         }
+
+        if(token == '<')currentDemand--;
     }
-    return maxDemand;
+    return maxDemand+1;
 }

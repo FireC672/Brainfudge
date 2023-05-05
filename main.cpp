@@ -237,7 +237,7 @@ int main(int argc, char** argv){
             // Syntax highlighting.
             for(int i = 0; i < data->size(); i++){
                 char token = data->at(i);
-                if(data->at((i-1)%data->size()) == '\n' || i == 0){
+                if((data->at((i-1)%data->size()) == '\n' || i == 0) && bDisplayLineNum){
                     std::cout << YELLOW_CODE << BOLD_TEXT << currentline++ << ' ' << CLEAR_FLG;
                 }
                 std::cout << GREY_CODE;
@@ -331,11 +331,12 @@ int main(int argc, char** argv){
     unsigned int ptr = 0;
     for(unsigned int i = 0; i < bdata.size(); i++){
         // If the pointer overflows, then raise an assertion.
-        __bassert__(ptr < memorysize,RUNTIME_ERROR_LEVEL,"Pointer overflowed in a Illegal location.\n");
+        std::string msg = "Pointer overflowed in a Illegal location at " + std::to_string(ptr) + "\n"; 
+        __bassert__(ptr < memorysize,RUNTIME_ERROR_LEVEL,msg);
 
         if(bdata[i]=='>')ptr++; 
 
-        if(bdata[i]=='<')ptr--; 
+        if(bdata[i]=='<' && ptr > 0)ptr--; 
 
         if(ptr > max_reached)
            max_reached = ptr;
