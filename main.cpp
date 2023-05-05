@@ -117,7 +117,7 @@ int main(int argc, char** argv){
             std::cout << "Memory size must be a positive integer. (higher value might cause issues).\n";
             std::cin >> iput;
 
-            __bassert__(iput > 0,FATAL_ERROR_LEVEL,"Can\'t allocate a negative amount.\n");
+            __bassert__(iput > 0,FATAL_ERROR_LEVEL,"Can\'t allocate a negative amount, or zero bytes.\n");
             memorysize = static_cast<unsigned>(iput);
 
             std::cout << "Successfully set the allocator to " << memorysize << " Bytes.\n";
@@ -131,7 +131,7 @@ int main(int argc, char** argv){
             return 0;
         }
 
-           if(!strcmp(argv[i],"--sp-syn-help")){
+        if(!strcmp(argv[i],"--sp-syn-help")){
             std::string* s = initsynhelp(1);
             std::cout << *s;
             delete s;
