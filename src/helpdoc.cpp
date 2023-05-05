@@ -25,7 +25,8 @@ std::string* inithelp(){
     "--syn-help                Displays the syntax help.\n"
     "--sp-syn-help             Displays the higher syntax help level.\n"
     "--snapshot-tok            Will attribute a new snapshot token from the input (NOT A POSITIONAL ARGUMENT).\n"
-    "~~~~~~~~~~~~~^ \033[33m\033[1mNOTE: \'--snapshot-tok\' must come after \'--snapshot-mem\'\033[0m";
+    "~~~~~~~~~~~~~^ \033[33m\033[1mNOTE: \'--snapshot-tok\' must come after \'--snapshot-mem\'\033[0m\n"
+    "-m / --alloc-mem          Will allocate how much requested from user.\n";
     return hlp;
 }
 
