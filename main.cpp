@@ -228,15 +228,8 @@ int main(int argc, char** argv){
 
             int currentline = 1;
             while(std::getline(infile,currline)){
-                std::string tmpline; 
-                if(bDisplayLineNum){
-                    tmpline += std::to_string(currentline);
-                    tmpline += ' ';
-                    tmpline += currline;
-                }
-                tmpline.push_back('\n');
-                for(auto& ch : tmpline)data->push_back(ch);
-                currentline++;
+                currline.push_back('\n');
+                for(auto& ch : currline)data->push_back(ch);
             }
 
             std::vector<int> loops = invalid_loops(*data); 
@@ -244,6 +237,9 @@ int main(int argc, char** argv){
             // Syntax highlighting.
             for(int i = 0; i < data->size(); i++){
                 char token = data->at(i);
+                if(data->at((i-1)%data->size()) == '\n' || i == 0){
+                    std::cout << YELLOW_CODE << BOLD_TEXT << currentline++ << ' ' << CLEAR_FLG;
+                }
                 std::cout << GREY_CODE;
                 if(token == '>' || token == '<')std::cout << PURPLE_CODE;
                 if(token == '+' || token == '-')std::cout << YELLOW_CODE;

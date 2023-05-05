@@ -35,7 +35,12 @@ std::string remove_slash(std::string& v);
 // Reverses string.
 std::string revstr(std::string& s);
 
-// _bassert => Brainfuck assert.
+// __bassert__ will raise a custom Assertion error. if 'e' evaluates to false.
+// This function was made for code reusability & refactored.
+// 'e': the condition (if it evaluates to false) then the it will raise an assertion.
+// 'error_lvl': The error level is the weigh of the error (warning, error, fatal error, runtime).
+// 'msg': The message followed by the error definition.
+// __bassert__ => Brainfuck assert.
 void __bassert__(bool e, int error_lvl, const std::string& msg);
 
 #endif
