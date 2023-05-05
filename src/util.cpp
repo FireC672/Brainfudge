@@ -73,19 +73,19 @@ void __bassert__(bool e, int error_lvl, const std::string& msg){
 
     switch (error_lvl)
     {
-        case 0:
+        case WARNING_LEVEL:
             std::cerr << YELLOW_CODE << BOLD_TEXT
                       << "warning: " << CLEAR_FLG;      
             break;
-        case 1:
+        case ERROR_LEVEL:
             std::cerr << RED_CODE << BOLD_TEXT
                       << "error: " << CLEAR_FLG;       
             break;
-        case 2:
+        case FATAL_ERROR_LEVEL:
             std::cerr << RED_CODE << BOLD_TEXT
                       << "fatal error: " << CLEAR_FLG;   
             break;    
-        case 3:
+        case RUNTIME_ERROR_LEVEL:
             std::cerr << RED_CODE << BOLD_TEXT 
                       << "runtime error: "<< CLEAR_FLG;
             break;

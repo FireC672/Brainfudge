@@ -30,6 +30,7 @@ bool bCountInstructions=false;
 bool bDisplayWhereHalt=false;
 bool bDumpGeneralMemory=false;
 bool bCustomMemoryDump=false;
+bool bSeperateTools=false;
 bool bDumpGeneralMemory_entire=false;
 
 // // If more than one character is inputed, then only fetch characters from a list instead of asking again.
@@ -104,6 +105,9 @@ int main(int argc, char** argv){
             bDumpGeneralMemory_entire=false;
             offest=0;
         }
+
+        if(!strcmp(argv[i],"--seperate-tools"))
+           bSeperateTools = true;
 
         if(!strcmp(argv[i],"-m") || !strcmp(argv[i],"--alloc-mem")){
             std::cout << "--- CUSTOM MEMORY ALLOCATION ---\n";
@@ -267,7 +271,7 @@ int main(int argc, char** argv){
     std::ifstream infile; 
     infile.open(argv[1],std::ios_base::in);
     
-    __bassert__(!infile.bad(),ERROR_LEVEL,"Provided source file is nonexistant.\n");
+    __bassert__(infile,ERROR_LEVEL,"Provided source file is nonexistant.\n");
 
     // The reason we allocate a pointer, is to prevent stack-space limitation issues.
     std::string* filedata = new std::string("");
@@ -371,6 +375,10 @@ int main(int argc, char** argv){
         instructions++;
     }
 
+    if(bSeperateTools){
+        std::cout << "\n*--------------------------------------------*\n";
+    }
+
     if(haltbreak && bSignalHalt){
         std::cout << "\n" << BOLD_TEXT << "*Program ended because of intentional halt (user-end) at char " << haltpos+1 << "*\n";
         if(bDisplayWhereHalt==true){
@@ -385,7 +393,7 @@ int main(int argc, char** argv){
     }
     
     if(bDumpGeneralMemory){
-        std::cout << "\n\n\n+--------------------------------------------+\n";
+        std::cout << "\n+--------------------------------------------+\n";
         std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
         if(max_reached == 0){
             printf("\t General Memory dump is empty.\n");
@@ -400,14 +408,16 @@ int main(int argc, char** argv){
             std::cout << "\n+--------------------------------------------+\n";
             printf("\nLast pointer location: %i (0x%x)\n",ptr,ptr);
         }
+    }
 
-        printf("\n\n");
+    if(bCustomMemoryDump){
+        std::cout << '\n';
         printf("%sSnapshots (%lu): %s\n",BOLD_TEXT,snapshots.size(),CLEAR_FLG);
         
         int nSnapshotC = 1;
 
         for(auto& snapshot : snapshots){  
-            std::cout << "\n\n+-----------------------------------------+\n";
+            std::cout << "\n+-----------------------------------------+\n";
             printf("| %sSnapshot_%i: %s",BOLD_TEXT,nSnapshotC,CLEAR_FLG);
             if(snapshot->memory_len == 0){
                 printf("\n\tSnapshot empty.\n");
@@ -429,7 +439,7 @@ int main(int argc, char** argv){
     }
 
     if(bDumpGeneralMemory_entire){
-        std::cout << "\n\n\n+--------------------------------------------+\n";
+        std::cout << "\n\n+--------------------------------------------+\n";
         std::cout << "| "<< BOLD_TEXT << "Dumped Memory (hexmode):\n" << CLEAR_FLG;
 
         if(max_reached == 0){
