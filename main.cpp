@@ -77,7 +77,7 @@ int main(int argc, char** argv){
     __bassert__(argc >= 2,ERROR_LEVEL,"Not enough arguments.\n");
 
     // Arguments parsing.
-    for(int i = 1; i < argc; i++){
+    for(int i = 2; i < argc; i++){
         if(!strcmp(argv[i],"-help") || !strcmp(argv[i],"-h")){
             std::string* help = inithelp();
             std::cout << *help;
