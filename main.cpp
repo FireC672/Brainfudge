@@ -82,6 +82,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"-help") || !strcmp(argv[i],"-h")){
             std::string* help = inithelp();
             std::cout << *help;
+            help->clear();
             delete help;
             return 0;
         }
@@ -127,6 +128,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--syn-help")){
             std::string* s = initsynhelp(0);
             std::cout << *s;
+            s->clear();
             delete s;
             return 0;
         }
@@ -134,6 +136,7 @@ int main(int argc, char** argv){
         if(!strcmp(argv[i],"--sp-syn-help")){
             std::string* s = initsynhelp(1);
             std::cout << *s;
+            s->clear();
             delete s;
             return 0;
         }
