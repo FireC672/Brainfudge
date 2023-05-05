@@ -376,7 +376,7 @@ int main(int argc, char** argv){
     }
 
     if(bSeperateTools){
-        std::cout << "\n*--------------------------------------------*\n";
+        std::cout << BOLD_TEXT <<"\n*------------------------------------------------------*\n" << CLEAR_FLG;
     }
 
     if(haltbreak && bSignalHalt){
