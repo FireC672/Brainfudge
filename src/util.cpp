@@ -97,6 +97,5 @@ void __bassert__(bool e, int error_lvl, const std::string& msg){
     }
 
     std::cerr << msg;
-    abort();
-    
+    exit(1);
 }
