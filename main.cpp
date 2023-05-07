@@ -9,7 +9,8 @@
 
 #include "includes/fread.hpp"   
 #include "includes/util.hpp"    
-#include "includes/helpdoc.hpp" 
+#include "includes/helpdoc.hpp"
+#include "includes/sherlock.hpp" 
 #include "includes/mem.hpp"     
 
 // ------------------------------
