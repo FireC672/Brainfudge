@@ -12,7 +12,6 @@
 // 'bIgnoreHalts' will ignore halts '!'
 std::string extract_syntax(const std::string& src, bool bIgnoreComments=false, bool bIgnoreHalts=false, char snapshot_token='%', bool bSaveSnapshot=false);
 // This function will check, if all the loops in the program have endings & beginnings.
-int check_loops(const std::string& src);
 
 // will calculate how much the program needs memory. (Excluding loops)
 unsigned int memoryDemand(const std::string& src);
