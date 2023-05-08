@@ -35,6 +35,9 @@ bool bSeperateTools=false;
 bool bDumpGeneralMemory_entire=false;
 
 // REALLY UNSAFE. (I don't want to doc it).
+// I will never doc. 
+// If you are forking the repo at this commit by cherry-pick or something else, please don't integrate.
+// It was made for debugging.
 bool bBypassSecurity=false;
 
 // // If more than one character is inputed, then only fetch characters from a list instead of asking again.
