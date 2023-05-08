@@ -34,6 +34,9 @@ bool bCustomMemoryDump=false;
 bool bSeperateTools=false;
 bool bDumpGeneralMemory_entire=false;
 
+// REALLY UNSAFE. (I don't want to doc it).
+bool bBypassSecurity=false;
+
 // // If more than one character is inputed, then only fetch characters from a list instead of asking again.
 //
 // Custom memory dump things.
@@ -155,6 +158,10 @@ int main(int argc, char** argv){
             s->clear();
             delete s;
             return 0;
+        }
+
+        if(!strcmp(argv[i],"--bypass-security")){
+            bBypassSecurity=true;
         }
 
         if(!strcmp(argv[i],"--fullmemory-dump")){
@@ -315,7 +322,7 @@ int main(int argc, char** argv){
         */
        
         int loopchecked = check_loops(bdata);
-        if(loopchecked != 0){
+        if(loopchecked != 0 && !bBypassSecurity){
             if(loopchecked > 0){
                 std::cout << YELLOW_CODE << BOLD_TEXT << "warning: " << CLEAR_FLG << "Unmatched \']\' (" << loopchecked << ") loop(s))\n";
             }else{
